@@ -34,6 +34,12 @@ namespace MVCApp.Presentation
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
 
+            // Register single instances
+            
+            builder.RegisterType<Encrypter>()
+                .As<IEncrypter>()
+                .SingleInstance();
+
             // Register Entity Framework
 
             builder.RegisterType<MVCAppContext>()

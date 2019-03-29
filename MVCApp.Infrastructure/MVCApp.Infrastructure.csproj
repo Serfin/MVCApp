@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Services\Encrypter.cs" />
+    <Compile Include="Services\IEncrypter.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\UserService.cs" />
