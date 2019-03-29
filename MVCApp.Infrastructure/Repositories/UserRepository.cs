@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Threading.Tasks;
 using MVCApp.Core.Domain;
 using MVCApp.Core.Repositories;
@@ -17,20 +18,14 @@ namespace MVCApp.Infrastructure.Repositories
             _context = context;
         }
 
-        public Task<User> GetByIdAsync(Guid userId)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<User> GetByIdAsync(Guid userId)
+            => await _context.Users.SingleOrDefaultAsync(x => x.UserId == userId);
 
-        public Task<User> GetByEmailAsync(string email)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<User> GetByEmailAsync(string email)
+            => await _context.Users.SingleOrDefaultAsync(x => x.Email == email);
 
-        public Task<User> GetByIgnAsync(string ign)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<User> GetByIgnAsync(string ign)
+            => await _context.Users.SingleOrDefaultAsync(x => x.Ign == ign);
 
         // TODO : Add pagination
         public async Task<IEnumerable<User>> GetAllAsync()
@@ -42,14 +37,17 @@ namespace MVCApp.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task UpdateAsync(User user)
+        public async Task UpdateAsync(User user)
         {
-            throw new NotImplementedException();
+            _context.Users.AddOrUpdate();
+            await _context.SaveChangesAsync();
         }
 
-        public Task RemoveAsync(Guid userId)
+        public async Task RemoveAsync(Guid userId)
         {
-            throw new NotImplementedException();
+            var user = await GetByIdAsync(userId);
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
         }
     }
 }
