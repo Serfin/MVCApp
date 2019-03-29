@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Data.Entity;
 using System.Threading.Tasks;
 using MVCApp.Core.Domain;
 using MVCApp.Core.Repositories;
+using MVCApp.Data.EntityFramework;
 
 namespace MVCApp.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        // TODO : Add EF support
-        private static ISet<User> _users = new HashSet<User>()
+        private readonly MVCAppContext _context;
+
+        public UserRepository(MVCAppContext context)
         {
-            new User(Guid.NewGuid(), "email", "ign", "password", "salt", "role")
-        };
+            _context = context;
+        }
 
         public Task<User> GetByIdAsync(Guid userId)
         {
@@ -30,13 +32,14 @@ namespace MVCApp.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
+        // TODO : Add pagination
         public async Task<IEnumerable<User>> GetAllAsync()
-            => await Task.FromResult(_users);
+            => await _context.Users.ToListAsync();
 
         public async Task AddAsync(User user)
         {
-            _users.Add(user);
-            await Task.CompletedTask;
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
         }
 
         public Task UpdateAsync(User user)
