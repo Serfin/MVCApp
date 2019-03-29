@@ -5,6 +5,7 @@ using Autofac.Integration.Mvc;
 using MVCApp.Core.Repositories;
 using MVCApp.Data.EntityFramework;
 using MVCApp.Infrastructure.Services;
+using MVCApp.Presentation.Mappings;
 
 namespace MVCApp.Presentation
 {
@@ -38,6 +39,9 @@ namespace MVCApp.Presentation
             
             builder.RegisterType<Encrypter>()
                 .As<IEncrypter>()
+                .SingleInstance();
+
+            builder.RegisterInstance(AutoMapperConfiguration.Initialize())
                 .SingleInstance();
 
             // Register Entity Framework

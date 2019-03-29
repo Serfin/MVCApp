@@ -1,33 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using MVCApp.Core.Domain;
 using MVCApp.Core.Repositories;
-using MVCApp.Infrastructure.Repositories;
+using MVCApp.Infrastructure.ViewModels;
 
 namespace MVCApp.Infrastructure.Services
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IEncrypter _encrypter;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IEncrypter encrypter, IMapper mapper)
         {
             _userRepository = userRepository;
+            _encrypter = encrypter;
+            _mapper = mapper;
         }
 
-        // TODO: Add encrypter
         public async Task RegisterAsync(Guid userId, string ign, string email, string password, string role)
         {
-            var user = new User(userId, email, ign, password, "salt", role);
+            var user = await _userRepository.GetByEmailAsync(email);
+
+            if (user != null)
+            {
+                throw new Exception($"User with email: {email} already exists.");
+            }
+
+            user = await _userRepository.GetByIgnAsync(ign);
+            if (user != null)
+            {
+                throw new Exception($"User with username: {ign} already exists.");
+            }
+
+            var salt = _encrypter.GetSalt(password);
+            var hash = _encrypter.GetHash(password, salt);
+
+            user = new User(userId, email, ign, hash, salt, role);
             await _userRepository.AddAsync(user);
         }
 
-        // TODO : Add object mapping
-        public async Task<IEnumerable<User>> GetAllAsync()
+        public async Task<IEnumerable<UserViewModel>> GetAllAsync()
         {
             var users = await _userRepository.GetAllAsync();
-            return users;
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(users);
         }
     }
 }
