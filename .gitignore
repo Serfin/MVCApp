@@ -360,6 +360,7 @@ MigrationBackup/
 ## Custom
 **/Content/*
 **/fonts/*
+**/Scripts/*
 
 # Logs and databases #
 *.log
