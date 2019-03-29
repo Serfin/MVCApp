@@ -14,7 +14,7 @@ namespace MVCApp.Core.Domain
             SetPassword(password, salt);
             SetIgn(ign);
             SetRole(role);
-            CreatedAt = DateTime.UtcNow;
+            CreatedAt = DateTime.Now;
         }
 
         protected User()
