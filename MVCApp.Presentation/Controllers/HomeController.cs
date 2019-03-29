@@ -14,7 +14,12 @@ namespace MVCApp.Presentation.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IUserService _userService = new UserService();
+        private readonly IUserService _userService;
+
+        public HomeController(IUserService userService)
+        {
+            _userService = userService;
+        }
 
         public ActionResult Index()
         {

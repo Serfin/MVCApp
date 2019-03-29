@@ -9,8 +9,12 @@ namespace MVCApp.Infrastructure.Services
 {
     public class UserService : IUserService
     {
-        // TODO : Inject dependency
-        private readonly IUserRepository _userRepository = new UserRepository();
+        private readonly IUserRepository _userRepository;
+
+        public UserService(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
 
         // TODO: Add encrypter
         public async Task RegisterAsync(Guid userId, string ign, string email, string password, string role)
