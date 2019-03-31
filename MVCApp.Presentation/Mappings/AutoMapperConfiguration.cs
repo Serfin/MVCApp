@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MVCApp.Core.Domain;
 using MVCApp.Infrastructure.ViewModels;
-using MVCApp.Presentation.Models;
 
 namespace MVCApp.Presentation.Mappings
 {
@@ -10,7 +9,8 @@ namespace MVCApp.Presentation.Mappings
         public static IMapper Initialize()
             => new MapperConfiguration(config =>
             {
-                config.CreateMap<User, UserViewModel>(); 
+                config.CreateMap<User, UserViewModel>();
+                config.CreateMap<UserViewModel, User>();
 
             }).CreateMapper();
     }
