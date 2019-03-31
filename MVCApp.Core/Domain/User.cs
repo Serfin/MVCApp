@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace MVCApp.Core.Domain
 {
@@ -88,5 +87,8 @@ namespace MVCApp.Core.Domain
             Password = password;
             Salt = salt;
         }
+
+        public void SetUpdateTime(DateTime updatedAt)
+            => UpdatedAt = updatedAt;
     }
 }
