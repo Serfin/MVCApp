@@ -48,5 +48,25 @@ namespace MVCApp.Infrastructure.Services
             var users = await _userRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(users);
         }
+
+        public async Task<UserViewModel> GetByIdAsync(Guid userId)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            return _mapper.Map<User, UserViewModel>(user);
+        }
+
+        public async Task UpdateUserAsync(UserViewModel userViewModel)
+        {
+            var user = await _userRepository.GetByIdAsync(userViewModel.UserId);
+            var newUser = _mapper.Map<UserViewModel, User>(userViewModel, user);
+            newUser.SetUpdateTime(DateTime.Now);
+            await _userRepository.UpdateAsync(newUser);
+        }
+
+        public async Task DeleteUserAsync(Guid userId)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            await _userRepository.DeleteAsync(user);
+        }
     }
 }

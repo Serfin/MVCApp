@@ -11,5 +11,9 @@ namespace MVCApp.Infrastructure.Services
             string password, string role);
 
         Task<IEnumerable<UserViewModel>> GetAllAsync();
+        Task<UserViewModel> GetByIdAsync(Guid userId);
+        Task UpdateUserAsync(UserViewModel userViewModel);
+
+        Task DeleteUserAsync(Guid userId);
     }
 }

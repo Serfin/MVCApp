@@ -39,13 +39,12 @@ namespace MVCApp.Infrastructure.Repositories
 
         public async Task UpdateAsync(User user)
         {
-            _context.Users.AddOrUpdate();
+            _context.Users.AddOrUpdate(user);
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoveAsync(Guid userId)
+        public async Task DeleteAsync(User user)
         {
-            var user = await GetByIdAsync(userId);
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
         }
