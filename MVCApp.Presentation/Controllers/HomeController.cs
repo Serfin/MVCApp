@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.EnterpriseServices;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using MVCApp.Infrastructure.Services;
+using MVCApp.Infrastructure.ViewModels;
 using MVCApp.Presentation.Models;
 
 namespace MVCApp.Presentation.Controllers
@@ -46,17 +41,75 @@ namespace MVCApp.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task Register(RegisterViewModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            await _userService.RegisterAsync(Guid.NewGuid(), model.Email, model.Ign, model.Password, "User");
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _userService.RegisterAsync(Guid.NewGuid(), model.Email, model.Ign, model.Password, "User");
 
-            RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch (Exception exception)
+                {
+                    // Invalid data view
+                }
+            }
+
+            return View();
+        }
+
+        public async Task<ActionResult> Details(Guid id)
+        {
+            var user = await _userService.GetByIdAsync(id);
+            return View(user);
         }
 
         public async Task<ActionResult> List()
         {
             var users = await _userService.GetAllAsync();
             return View(users);
+        }
+
+        public async Task<ActionResult> Edit(Guid id)
+        {
+            var user = await _userService.GetByIdAsync(id);
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(UserViewModel userViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                await _userService.UpdateUserAsync(userViewModel);
+                return RedirectToAction("List");
+            }
+
+            return View("List");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            var user = await _userService.GetByIdAsync(id);
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteUser(Guid id)
+        {
+            if (ModelState.IsValid)
+            {
+                await _userService.DeleteUserAsync(id);
+                return RedirectToAction("List");
+            }
+
+            return View("List");
         }
     }
 }

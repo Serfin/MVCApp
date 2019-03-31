@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace MVCApp.Core.Domain
 {
@@ -14,7 +13,7 @@ namespace MVCApp.Core.Domain
             SetPassword(password, salt);
             SetIgn(ign);
             SetRole(role);
-            CreatedAt = DateTime.UtcNow;
+            CreatedAt = DateTime.Now;
         }
 
         protected User()
@@ -88,5 +87,8 @@ namespace MVCApp.Core.Domain
             Password = password;
             Salt = salt;
         }
+
+        public void SetUpdateTime(DateTime updatedAt)
+            => UpdatedAt = updatedAt;
     }
 }

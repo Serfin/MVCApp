@@ -5,6 +5,7 @@ using Autofac.Integration.Mvc;
 using MVCApp.Core.Repositories;
 using MVCApp.Data.EntityFramework;
 using MVCApp.Infrastructure.Services;
+using MVCApp.Presentation.Mappings;
 
 namespace MVCApp.Presentation
 {
@@ -33,6 +34,15 @@ namespace MVCApp.Presentation
                 .Where(x => x.IsAssignableTo<IService>())
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
+
+            // Register single instances
+            
+            builder.RegisterType<Encrypter>()
+                .As<IEncrypter>()
+                .SingleInstance();
+
+            builder.RegisterInstance(AutoMapperConfiguration.Initialize())
+                .SingleInstance();
 
             // Register Entity Framework
 

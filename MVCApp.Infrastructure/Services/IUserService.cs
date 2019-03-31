@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MVCApp.Core.Domain;
+using MVCApp.Infrastructure.ViewModels;
 
 namespace MVCApp.Infrastructure.Services
 {
@@ -11,6 +10,10 @@ namespace MVCApp.Infrastructure.Services
         Task RegisterAsync(Guid userId, string email, string ign, 
             string password, string role);
 
-        Task<IEnumerable<User>> GetAllAsync();
+        Task<IEnumerable<UserViewModel>> GetAllAsync();
+        Task<UserViewModel> GetByIdAsync(Guid userId);
+        Task UpdateUserAsync(UserViewModel userViewModel);
+
+        Task DeleteUserAsync(Guid userId);
     }
 }
