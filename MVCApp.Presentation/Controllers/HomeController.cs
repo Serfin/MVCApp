@@ -73,25 +73,6 @@ namespace MVCApp.Presentation.Controllers
             return View(users);
         }
 
-        public async Task<ActionResult> Edit(Guid id)
-        {
-            var user = await _userService.GetByIdAsync(id);
-            return View(user);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(UserViewModel userViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                await _userService.UpdateUserAsync(userViewModel);
-                return RedirectToAction("List");
-            }
-
-            return View("List");
-        }
-
         [HttpGet]
         public async Task<ActionResult> Delete(Guid id)
         {
