@@ -51,7 +51,14 @@ namespace MVCApp.Infrastructure.Services
 
         public async Task<UserViewModel> GetByIdAsync(Guid userId)
         {
+            if (userId == null)
+                throw new ArgumentNullException($"{nameof(userId)} cannot be null");
+
             var user = await _userRepository.GetByIdAsync(userId);
+
+            if (user == null)
+                throw new ArgumentNullException($"{nameof(user)} does not exist");
+
             return _mapper.Map<User, UserViewModel>(user);
         }
 

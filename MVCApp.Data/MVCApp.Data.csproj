@@ -53,6 +53,14 @@
     <Compile Include="Migrations\201903291806235_Added Users table with PK userId.Designer.cs">
       <DependentUpon>201903291806235_Added Users table with PK userId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904061340283_Added Rotation tabe with PK-RotationID, FK-UserID.cs" />
+    <Compile Include="Migrations\201904061340283_Added Rotation tabe with PK-RotationID, FK-UserID.Designer.cs">
+      <DependentUpon>201904061340283_Added Rotation tabe with PK-RotationID, FK-UserID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904061419565_Added many-to-many relation Rotation-User.cs" />
+    <Compile Include="Migrations\201904061419565_Added many-to-many relation Rotation-User.Designer.cs">
+      <DependentUpon>201904061419565_Added many-to-many relation Rotation-User.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -68,6 +76,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201903291806235_Added Users table with PK userId.resx">
       <DependentUpon>201903291806235_Added Users table with PK userId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904061340283_Added Rotation tabe with PK-RotationID, FK-UserID.resx">
+      <DependentUpon>201904061340283_Added Rotation tabe with PK-RotationID, FK-UserID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904061419565_Added many-to-many relation Rotation-User.resx">
+      <DependentUpon>201904061419565_Added many-to-many relation Rotation-User.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
