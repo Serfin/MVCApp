@@ -7,13 +7,13 @@ namespace MVCApp.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddedmanytomanyrelationRotationUser : IMigrationMetadata
+    public sealed partial class AddedRotationtablewithFKUserId : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedmanytomanyrelationRotationUser));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedRotationtablewithFKUserId));
         
         string IMigrationMetadata.Id
         {
-            get { return "201904061419565_Added many-to-many relation Rotation-User"; }
+            get { return "201904061734434_Added Rotation table with FK-UserId"; }
         }
         
         string IMigrationMetadata.Source

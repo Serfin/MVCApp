@@ -7,13 +7,13 @@ namespace MVCApp.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddedRotationtabewithPKRotationIDFKUserID : IMigrationMetadata
+    public sealed partial class AddedMemberstablewithFKRotationIDFKUserId : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedRotationtabewithPKRotationIDFKUserID));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedMemberstablewithFKRotationIDFKUserId));
         
         string IMigrationMetadata.Id
         {
-            get { return "201904061340283_Added Rotation tabe with PK-RotationID, FK-UserID"; }
+            get { return "201904061735428_Added Members table with FK-RotationID, FK-UserId"; }
         }
         
         string IMigrationMetadata.Source

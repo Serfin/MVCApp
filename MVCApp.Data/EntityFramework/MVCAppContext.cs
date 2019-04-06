@@ -29,6 +29,7 @@ namespace MVCApp.Data.EntityFramework
                 {
                     x.MapLeftKey("RotationId");
                     x.MapRightKey("UserId");
+                    x.ToTable("RotationMembers");
                 });
         }
     }
