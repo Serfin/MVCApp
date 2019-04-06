@@ -21,7 +21,7 @@ namespace MVCApp.Infrastructure.Services
             _mapper = mapper;
         }
 
-        public async Task RegisterAsync(Guid userId, string ign, string email, string password, string role)
+        public async Task RegisterAsync(Guid userId, string email, string ign, string password, string role)
         {
             var user = await _userRepository.GetByEmailAsync(email);
 

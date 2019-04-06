@@ -45,9 +45,6 @@ namespace ExileRota.Core.Domain
             if (rotationId == null)
                 throw new ArgumentNullException($"{nameof(rotationId)} cannot be null");
 
-            if (RotationId != null)
-                throw new ArgumentException("Rotation ID cannot be changed");
-
             RotationId = rotationId;
         }
 

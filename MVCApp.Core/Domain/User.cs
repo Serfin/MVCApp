@@ -24,8 +24,8 @@ namespace MVCApp.Core.Domain
         }
 
         public Guid UserId { get; protected set; }
-        public string Email { get; protected set; }
         public string Ign { get; protected set; }
+        public string Email { get; protected set; }
         public string Password { get; protected set; }
         public string Salt { get; protected set; }
         public string Role { get; protected set; }
@@ -40,11 +40,6 @@ namespace MVCApp.Core.Domain
             if (userId == null)
             {
                 throw new ArgumentNullException($"{nameof(userId)} cannot be empty");
-            }
-
-            if (UserId != null)
-            {
-                throw new ArgumentException("UserID cannot be modified!");
             }
 
             UserId = userId;
@@ -65,11 +60,6 @@ namespace MVCApp.Core.Domain
             if (string.IsNullOrWhiteSpace(ign))
             {
                 throw new ArgumentNullException($"{nameof(ign)} cannot be empty");
-            }
-
-            if (Ign != null)
-            {
-                throw new ArgumentException("User IGN cannot be modified!");
             }
 
             if (ign.Length < 3)
