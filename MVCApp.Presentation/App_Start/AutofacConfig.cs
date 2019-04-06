@@ -5,6 +5,7 @@ using Autofac.Integration.Mvc;
 using MVCApp.Core.Repositories;
 using MVCApp.Data.EntityFramework;
 using MVCApp.Infrastructure.Services;
+using MVCApp.Presentation.Controllers;
 using MVCApp.Presentation.Mappings;
 
 namespace MVCApp.Presentation
@@ -17,7 +18,7 @@ namespace MVCApp.Presentation
 
             // Register controllers
 
-            builder.RegisterControllers(typeof(BundleConfig).Assembly);
+            builder.RegisterControllers(typeof(HomeController).Assembly);
 
             // Register types
 
