@@ -5,13 +5,12 @@ namespace MVCApp.Presentation.Models
     public class RegisterViewModel
     {
         [Required(ErrorMessage = "Insert ign")]
-        [MinLength(5, ErrorMessage = "Given ign is too short")]
+        [MinLength(3, ErrorMessage = "Given ign is too short")]
         [StringLength(100, ErrorMessage = "Given ign is too long")]
         public string Ign { get; set; }
 
         [DataType(DataType.EmailAddress, ErrorMessage =  "Error")]
         [Required(ErrorMessage = "Insert email")]
-        [MinLength(10, ErrorMessage = "Given email is too short")]
         [StringLength(200, ErrorMessage = "Given email is too long")]
         public string Email { get; set; }
 

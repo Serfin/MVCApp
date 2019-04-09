@@ -11,8 +11,8 @@ namespace MVCApp.Data.Migrations
                 c => new
                     {
                         UserId = c.Guid(nullable: false),
-                        Email = c.String(nullable: false),
                         Ign = c.String(nullable: false),
+                        Email = c.String(nullable: false),
                         Password = c.String(nullable: false),
                         Salt = c.String(nullable: false),
                         Role = c.String(nullable: false),

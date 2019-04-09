@@ -3,7 +3,7 @@
     ViewBag.Title = "List";
 }
 
-<h2>Administrator dashboard</h2>
+<h2>List of all registered users (temporary)</h2>
 
 <p>
     @Html.ActionLink("Register new user", "Register")
@@ -52,7 +52,6 @@
             @Html.DisplayFor(modelItem => item.UpdatedAt)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.UserId }) |
             @Html.ActionLink("Details", "Details", new { id = item.UserId }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.UserId })
         </td>

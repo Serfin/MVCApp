@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using MVCApp.Infrastructure.Services;
 using MVCApp.Infrastructure.ViewModels;
 using MVCApp.Presentation.Models;
@@ -10,10 +11,12 @@ namespace MVCApp.Presentation.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IRotationService _rotationService;
 
-        public HomeController(IUserService userService)
+        public HomeController(IUserService userService, IRotationService rotationService)
         {
             _userService = userService;
+            _rotationService = rotationService;
         }
 
         public ActionResult Index()
@@ -48,13 +51,16 @@ namespace MVCApp.Presentation.Controllers
             {
                 try
                 {
+                    // TODO : Change process of giving roles
                     await _userService.RegisterAsync(Guid.NewGuid(), model.Email, model.Ign, model.Password, "User");
 
                     return RedirectToAction("Index");
                 }
                 catch (Exception exception)
                 {
-                    // Invalid data view
+                    // TODO : Add popup with error
+                    ViewData.Add("Exception", exception.Message);
+                    return View();
                 }
             }
 
@@ -71,25 +77,6 @@ namespace MVCApp.Presentation.Controllers
         {
             var users = await _userService.GetAllAsync();
             return View(users);
-        }
-
-        public async Task<ActionResult> Edit(Guid id)
-        {
-            var user = await _userService.GetByIdAsync(id);
-            return View(user);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(UserViewModel userViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                await _userService.UpdateUserAsync(userViewModel);
-                return RedirectToAction("List");
-            }
-
-            return View("List");
         }
 
         [HttpGet]
@@ -110,6 +97,40 @@ namespace MVCApp.Presentation.Controllers
             }
 
             return View("List");
+        }
+
+        // TODO : Add pagination
+        public async Task<ActionResult> BrowseRotations(int page = 1)
+        {
+            var rotations = await _rotationService.GetAllAsync();
+            return View(rotations);
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _userService.LoginAsync(model.Email, model.Password);
+                    Session["LoggedUser"] = model.Email;
+                    return RedirectToAction("Index", "Account");
+                }
+                catch (Exception e)
+                {
+                    ViewData.Add("LoginException", e.Message);
+                    return View();
+                }
+            }
+
+            return View();
         }
     }
 }

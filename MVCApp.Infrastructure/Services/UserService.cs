@@ -21,7 +21,7 @@ namespace MVCApp.Infrastructure.Services
             _mapper = mapper;
         }
 
-        public async Task RegisterAsync(Guid userId, string ign, string email, string password, string role)
+        public async Task RegisterAsync(Guid userId, string email, string ign, string password, string role)
         {
             var user = await _userRepository.GetByEmailAsync(email);
 
@@ -51,8 +51,28 @@ namespace MVCApp.Infrastructure.Services
 
         public async Task<UserViewModel> GetByIdAsync(Guid userId)
         {
+            if (userId == null)
+                throw new ArgumentNullException($"{nameof(userId)} cannot be null");
+
             var user = await _userRepository.GetByIdAsync(userId);
+
+            if (user == null)
+                throw new ArgumentNullException($"{nameof(user)} does not exist");
+
             return _mapper.Map<User, UserViewModel>(user);
+        }
+
+        public async Task LoginAsync(string email, string password)
+        {
+            var user = await _userRepository.GetByEmailAsync(email);
+
+            if (user == null)
+                throw new ArgumentException("Invalid credentials");
+
+            var hash = _encrypter.GetHash(password, user.Salt);
+
+            if (user.Password != hash)
+                throw new ArgumentException("Invalid credentials");
         }
 
         public async Task UpdateUserAsync(UserViewModel userViewModel)

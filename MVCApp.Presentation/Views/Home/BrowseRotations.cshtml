@@ -1,0 +1,46 @@
+﻿@model IEnumerable<MVCApp.Infrastructure.ViewModels.RotationViewModel>
+
+<h2>Browse all rotations</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Creator)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.League)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Members)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Spots)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Creator)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.League)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Type)
+        </td>
+        <td>
+            Members <button class="btn btn-sm btn-default"><i class="glyphicon glyphicon-menu-down"></i></button>
+            <!-- Add member display -->
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Spots)
+        </td>
+    </tr>
+}
+
+</table>
