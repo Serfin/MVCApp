@@ -14,5 +14,10 @@ namespace MVCApp.Presentation
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutofacConfig.Initialize();
         }
+
+        protected void Sesstion_End()
+        {
+            Session["LoggedUser"] = null;
+        }
     }
 }

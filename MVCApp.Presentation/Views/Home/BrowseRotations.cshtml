@@ -2,9 +2,6 @@
 
 <h2>Browse all rotations</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -37,10 +34,8 @@
             @Html.DisplayFor(modelItem => item.Type)
         </td>
         <td>
-            @foreach (var member in item.Members)
-            {
-                @Html.DisplayFor(memberItem => member.Ign)
-            }
+            Members <button class="btn btn-sm btn-default"><i class="glyphicon glyphicon-menu-down"></i></button>
+            <!-- Add member display -->
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Spots)

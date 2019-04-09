@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Ajax.Utilities
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -27,6 +28,9 @@
                     <li>@Html.ActionLink("Register", "Register", "Home")</li>
                     <li>@Html.ActionLink("List of users", "List", "Home")</li>
                     <li>@Html.ActionLink("Browse rotations", "BrowseRotations", "Home")</li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>@Html.ActionLink("Login", "Login", "Home")</li>
                 </ul>
             </div>
         </div>
