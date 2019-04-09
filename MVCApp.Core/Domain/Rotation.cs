@@ -33,7 +33,7 @@ namespace ExileRota.Core.Domain
         public string Type { get; protected set; }
         public int? Spots { get; protected set; }
 
-        public ICollection<User> Members
+        public virtual ICollection<User> Members
         {
             get => _members;
             protected set => _members = new HashSet<User>();
