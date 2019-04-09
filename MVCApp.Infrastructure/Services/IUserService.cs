@@ -13,6 +13,7 @@ namespace MVCApp.Infrastructure.Services
         Task<IEnumerable<UserViewModel>> GetAllAsync();
         Task<UserViewModel> GetByIdAsync(Guid userId);
         Task UpdateUserAsync(UserViewModel userViewModel);
+        Task LoginAsync(string email, string password);
 
         Task DeleteUserAsync(Guid userId);
     }

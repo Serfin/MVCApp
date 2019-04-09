@@ -62,6 +62,19 @@ namespace MVCApp.Infrastructure.Services
             return _mapper.Map<User, UserViewModel>(user);
         }
 
+        public async Task LoginAsync(string email, string password)
+        {
+            var user = await _userRepository.GetByEmailAsync(email);
+
+            if (user == null)
+                throw new ArgumentException("Invalid credentials");
+
+            var hash = _encrypter.GetHash(password, user.Salt);
+
+            if (user.Password != hash)
+                throw new ArgumentException("Invalid credentials");
+        }
+
         public async Task UpdateUserAsync(UserViewModel userViewModel)
         {
             var user = await _userRepository.GetByIdAsync(userViewModel.UserId);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using MVCApp.Infrastructure.Services;
 using MVCApp.Infrastructure.ViewModels;
 using MVCApp.Presentation.Models;
@@ -103,6 +104,33 @@ namespace MVCApp.Presentation.Controllers
         {
             var rotations = await _rotationService.GetAllAsync();
             return View(rotations);
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _userService.LoginAsync(model.Email, model.Password);
+                    Session["LoggedUser"] = model.Email;
+                    return RedirectToAction("Index", "Account");
+                }
+                catch (Exception e)
+                {
+                    ViewData.Add("LoginException", e.Message);
+                    return View();
+                }
+            }
+
+            return View();
         }
     }
 }
