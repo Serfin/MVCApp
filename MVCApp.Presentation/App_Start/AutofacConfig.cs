@@ -4,6 +4,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using MVCApp.Core.Repositories;
 using MVCApp.Data.EntityFramework;
+using MVCApp.Infrastructure.CommandHandlers;
 using MVCApp.Infrastructure.Services;
 using MVCApp.Presentation.Controllers;
 using MVCApp.Presentation.Mappings;
@@ -36,8 +37,12 @@ namespace MVCApp.Presentation
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterAssemblyTypes(infrastructureAssembly)
+                .AsClosedTypesOf(typeof(ICommandHandler<>))
+                .InstancePerLifetimeScope();
+
             // Register single instances
-            
+
             builder.RegisterType<Encrypter>()
                 .As<IEncrypter>()
                 .SingleInstance();
