@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
+using MVCApp.Infrastructure.CommandHandlers;
+using MVCApp.Infrastructure.Commands.User;
 using MVCApp.Infrastructure.Services;
-using MVCApp.Infrastructure.ViewModels;
 using MVCApp.Presentation.Models;
 
 namespace MVCApp.Presentation.Controllers
