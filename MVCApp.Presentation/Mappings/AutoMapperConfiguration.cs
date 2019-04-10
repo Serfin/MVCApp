@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using ExileRota.Core.Domain;
 using MVCApp.Core.Domain;
-using MVCApp.Infrastructure.ViewModels;
+using MVCApp.Infrastructure.DTO;
 
 namespace MVCApp.Presentation.Mappings
 {
@@ -10,9 +10,9 @@ namespace MVCApp.Presentation.Mappings
         public static IMapper Initialize()
             => new MapperConfiguration(config =>
             {
-                config.CreateMap<User, UserViewModel>();
-                config.CreateMap<UserViewModel, User>();
-                config.CreateMap<Rotation, RotationViewModel>();
+                config.CreateMap<User, UserDto>();
+                config.CreateMap<UserDto, User>();
+                config.CreateMap<Rotation, RotationDto>();
             }).CreateMapper();
     }
 }

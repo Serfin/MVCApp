@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using MVCApp.Infrastructure.ViewModels;
+using MVCApp.Infrastructure.DTO;
 
 namespace MVCApp.Infrastructure.Services
 {
     public interface IRotationService : IService
     {
-        Task<IEnumerable<RotationViewModel>> GetAllAsync();
+        Task<IEnumerable<RotationDto>> GetAllAsync();
     }
 }

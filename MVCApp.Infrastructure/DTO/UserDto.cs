@@ -1,9 +1,8 @@
 ﻿using System;
-using System.ComponentModel;
 
-namespace MVCApp.Infrastructure.ViewModels
+namespace MVCApp.Infrastructure.DTO
 {
-    public class UserViewModel
+    public class UserDto
     {
         public Guid UserId { get; set; }
         public string Ign { get; set; }
