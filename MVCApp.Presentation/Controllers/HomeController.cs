@@ -13,11 +13,14 @@ namespace MVCApp.Presentation.Controllers
     {
         private readonly IUserService _userService;
         private readonly IRotationService _rotationService;
+        private readonly ICommandHandler<RegisterUser> _commandHandler;
 
-        public HomeController(IUserService userService, IRotationService rotationService)
+        public HomeController(IUserService userService, IRotationService rotationService,
+            ICommandHandler<RegisterUser> commandHandler)
         {
             _userService = userService;
             _rotationService = rotationService;
+            _commandHandler = commandHandler;
         }
 
         public ActionResult Index()
@@ -52,8 +55,14 @@ namespace MVCApp.Presentation.Controllers
             {
                 try
                 {
-                    // TODO : Change process of giving roles
-                    await _userService.RegisterAsync(Guid.NewGuid(), model.Email, model.Ign, model.Password, "User");
+                    var command = new RegisterUser()
+                    {
+                        Email = model.Email,
+                        Ign = model.Ign,
+                        Password = model.Password
+                    };
+
+                    await _commandHandler.HandleAsync(command);
 
                     return RedirectToAction("Index");
                 }
