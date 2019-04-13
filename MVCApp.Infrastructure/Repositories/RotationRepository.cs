@@ -16,6 +16,12 @@ namespace MVCApp.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task AddAsync(Rotation rotation)
+        {
+            _context.Rotations.Add(rotation);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<Rotation>> GetAllAsync()
             => await _context.Rotations.ToListAsync();
     }

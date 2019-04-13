@@ -6,6 +6,8 @@ namespace MVCApp.Core.Repositories
 {
     public interface IRotationRepository : IRepository
     {
+        Task AddAsync(Rotation rotation);
+
         Task<IEnumerable<Rotation>> GetAllAsync();
     }
 }

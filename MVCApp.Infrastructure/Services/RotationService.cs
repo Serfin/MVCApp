@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using ExileRota.Core.Domain;
@@ -16,6 +17,13 @@ namespace MVCApp.Infrastructure.Services
         {
             _rotationRepository = rotationRepository;
             _mapper = mapper;
+        }
+
+        public async Task CreateRotationAsync(Guid rotationId, Guid userId, string league, string type, int spots)
+        {
+            var rotation = new Rotation(rotationId, userId, league, type, spots);
+
+            await _rotationRepository.AddAsync(rotation);
         }
 
         public async Task<IEnumerable<RotationDto>> GetAllAsync()
