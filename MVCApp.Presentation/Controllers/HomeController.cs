@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using MVCApp.Infrastructure.CommandHandlers;
 using MVCApp.Infrastructure.Commands.User;
@@ -23,8 +23,20 @@ namespace MVCApp.Presentation.Controllers
             _commandHandler = commandHandler;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    var guid = Guid.NewGuid();
+            //    await _userService.RegisterAsync(guid, $"test-email{i}", $"test-ign{i}",
+            //        "123qwe123", "User");
+
+            //    Random rnd = new Random();
+
+            //    await _rotationService.CreateRotationAsync(Guid.NewGuid(), guid, "Delve", "MasterRotation", rnd.Next(1, 5));
+            //}
+
+            Logout();
             return View();
         }
 
@@ -42,14 +54,42 @@ namespace MVCApp.Presentation.Controllers
             return View();
         }
 
-        public ActionResult Register()
+        public ActionResult SignIn()
         {
             return View();
         }
 
+        public ActionResult BrowseRotations()
+        {
+            return RedirectToAction("BrowseRotations", "Rotations");
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> Details(Guid id)
+        {
+            var user = await _userService.GetByIdAsync(id);
+            return View(user);
+        }
+
+        public async Task<ActionResult> List()
+        {
+            var users = await _userService.GetAllAsync();
+            return View(users);
+        }
+
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            var user = await _userService.GetByIdAsync(id);
+            return View(user);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> SignIn(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -77,25 +117,6 @@ namespace MVCApp.Presentation.Controllers
             return View();
         }
 
-        public async Task<ActionResult> Details(Guid id)
-        {
-            var user = await _userService.GetByIdAsync(id);
-            return View(user);
-        }
-
-        public async Task<ActionResult> List()
-        {
-            var users = await _userService.GetAllAsync();
-            return View(users);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> Delete(Guid id)
-        {
-            var user = await _userService.GetByIdAsync(id);
-            return View(user);
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteUser(Guid id)
@@ -109,18 +130,6 @@ namespace MVCApp.Presentation.Controllers
             return View("List");
         }
 
-        // TODO : Add pagination
-        public async Task<ActionResult> BrowseRotations(int page = 1)
-        {
-            var rotations = await _rotationService.GetAllAsync();
-            return View(rotations);
-        }
-
-        public ActionResult Login()
-        {
-            return View();
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model)
@@ -130,7 +139,14 @@ namespace MVCApp.Presentation.Controllers
                 try
                 {
                     await _userService.LoginAsync(model.Email, model.Password);
-                    Session["LoggedUser"] = model.Email;
+
+                    HttpCookie cookie = new HttpCookie("User")
+                    {
+                        Expires = DateTime.Now.AddDays(1),
+                        ["UserEmail"] = model.Email
+                    };
+                    Response.Cookies.Add(cookie);
+
                     return RedirectToAction("Index", "Account");
                 }
                 catch (Exception e)
@@ -141,6 +157,13 @@ namespace MVCApp.Presentation.Controllers
             }
 
             return View();
+        }
+
+        [HttpGet]
+        public void Logout()
+        {
+            Request.Cookies.Clear();
+            RedirectToAction("Index");
         }
     }
 }
