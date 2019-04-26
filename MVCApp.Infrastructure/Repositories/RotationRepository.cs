@@ -28,6 +28,6 @@ namespace MVCApp.Infrastructure.Repositories
             => await _context.Rotations.ToListAsync();
 
         public async Task<IEnumerable<Rotation>> GetByType(RotationType type)
-            => await _context.Rotations.Where(x => x.Type == type.ToString()).ToListAsync();
+            => await _context.Rotations.Where(x => x.Type == type).ToListAsync();
     }
 }

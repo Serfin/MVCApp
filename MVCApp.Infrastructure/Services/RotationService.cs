@@ -20,9 +20,9 @@ namespace MVCApp.Infrastructure.Services
             _mapper = mapper;
         }
 
-        public async Task CreateRotationAsync(Guid rotationId, Guid userId, string league, RotationType type, int spots)
+        public async Task CreateRotationAsync(Guid rotationId, Guid userId, LeagueName league, RotationType type, int spots)
         {
-            var rotation = new Rotation(rotationId, userId, league, type.ToString(), spots);
+            var rotation = new Rotation(rotationId, userId, league, type, spots);
 
             await _rotationRepository.AddAsync(rotation);
         }

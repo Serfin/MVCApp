@@ -23,20 +23,8 @@ namespace MVCApp.Presentation.Controllers
             _commandHandler = commandHandler;
         }
 
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            //for (int i = 0; i < 100; i++)
-            //{
-            //    var guid = Guid.NewGuid();
-            //    await _userService.RegisterAsync(guid, $"test-email{i}", $"test-ign{i}",
-            //        "123qwe123", "User");
-
-            //    Random rnd = new Random();
-
-            //    await _rotationService.CreateRotationAsync(Guid.NewGuid(), guid, "Delve", "MasterRotation", rnd.Next(1, 5));
-            //}
-
-            Logout();
             return View();
         }
 

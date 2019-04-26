@@ -8,7 +8,7 @@ namespace MVCApp.Infrastructure.Services
 {
     public interface IRotationService : IService
     {
-        Task CreateRotationAsync(Guid rotationId, Guid userId, string league, RotationType type, int spots);
+        Task CreateRotationAsync(Guid rotationId, Guid userId, LeagueName league, RotationType type, int spots);
 
         Task<IEnumerable<RotationDto>> GetAllAsync();
     }
