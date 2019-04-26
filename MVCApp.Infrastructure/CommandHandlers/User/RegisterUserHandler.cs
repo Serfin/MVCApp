@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MVCApp.Core.Enums;
 using MVCApp.Infrastructure.Commands.User;
 using MVCApp.Infrastructure.Services;
 
@@ -13,11 +14,11 @@ namespace MVCApp.Infrastructure.CommandHandlers.User
         {
             _userService = userService;
         }
-        // TODO : Add role 
+
         public async Task HandleAsync(RegisterUser command)
         {
             await _userService.RegisterAsync(Guid.NewGuid(), command.Email, 
-                command.Ign, command.Password, "User");
+                command.Ign, command.Password, SystemRole.User);
         }
     }
 }

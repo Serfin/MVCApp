@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using MVCApp.Core.Domain;
 
-namespace ExileRota.Core.Domain
+namespace MVCApp.Core.Domain
 {
     public class Rotation
     {

@@ -1,5 +1,4 @@
 ﻿using System.Data.Entity;
-using ExileRota.Core.Domain;
 using MVCApp.Core.Domain;
 
 namespace MVCApp.Data.EntityFramework

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using MVCApp.Core.Domain;
+using MVCApp.Core.Enums;
 using MVCApp.Core.Repositories;
 using MVCApp.Infrastructure.DTO;
 
@@ -21,7 +22,7 @@ namespace MVCApp.Infrastructure.Services
             _mapper = mapper;
         }
 
-        public async Task RegisterAsync(Guid userId, string email, string ign, string password, string role)
+        public async Task RegisterAsync(Guid userId, string email, string ign, string password, SystemRole role)
         {
             var user = await _userRepository.GetByEmailAsync(email);
 
@@ -39,7 +40,7 @@ namespace MVCApp.Infrastructure.Services
             var salt = _encrypter.GetSalt(password);
             var hash = _encrypter.GetHash(password, salt);
 
-            user = new User(userId, email, ign, hash, salt, role);
+            user = new User(userId, email, ign, hash, salt, role.ToString());
             await _userRepository.AddAsync(user);
         }
 

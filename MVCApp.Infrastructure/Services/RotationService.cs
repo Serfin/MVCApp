@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using ExileRota.Core.Domain;
+using MVCApp.Core.Domain;
+using MVCApp.Core.Enums;
 using MVCApp.Core.Repositories;
 using MVCApp.Infrastructure.DTO;
 
@@ -19,9 +20,9 @@ namespace MVCApp.Infrastructure.Services
             _mapper = mapper;
         }
 
-        public async Task CreateRotationAsync(Guid rotationId, Guid userId, string league, string type, int spots)
+        public async Task CreateRotationAsync(Guid rotationId, Guid userId, string league, RotationType type, int spots)
         {
-            var rotation = new Rotation(rotationId, userId, league, type, spots);
+            var rotation = new Rotation(rotationId, userId, league, type.ToString(), spots);
 
             await _rotationRepository.AddAsync(rotation);
         }

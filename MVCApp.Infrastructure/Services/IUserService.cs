@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MVCApp.Core.Enums;
 using MVCApp.Infrastructure.DTO;
 
 namespace MVCApp.Infrastructure.Services
@@ -8,7 +9,7 @@ namespace MVCApp.Infrastructure.Services
     public interface IUserService : IService
     {
         Task RegisterAsync(Guid userId, string email, string ign, 
-            string password, string role);
+            string password, SystemRole role);
 
         Task<IEnumerable<UserDto>> GetAllAsync();
         Task<UserDto> GetByIdAsync(Guid userId);

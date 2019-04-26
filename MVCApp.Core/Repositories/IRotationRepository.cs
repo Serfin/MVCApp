@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ExileRota.Core.Domain;
+using MVCApp.Core.Domain;
+using MVCApp.Core.Enums;
 
 namespace MVCApp.Core.Repositories
 {
@@ -8,6 +9,7 @@ namespace MVCApp.Core.Repositories
     {
         Task AddAsync(Rotation rotation);
 
+        Task<IEnumerable<Rotation>> GetByType(RotationType type);
         Task<IEnumerable<Rotation>> GetAllAsync();
     }
 }
