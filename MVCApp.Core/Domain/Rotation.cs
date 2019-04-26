@@ -29,8 +29,8 @@ namespace MVCApp.Core.Domain
         public Guid Creator { get; protected set; }
 
         public Guid RotationId { get; protected set; }
-        public LeagueName League { get; protected set; }
-        public RotationType Type { get; protected set; }
+        public string League { get; protected set; }
+        public string Type { get; protected set; }
         public int? Spots { get; protected set; }
 
         public virtual ICollection<User> Members
@@ -65,7 +65,7 @@ namespace MVCApp.Core.Domain
                 throw new Exception("Type cannot be empty");
             }
 
-            Type = type;
+            Type = type.ToString();
         }
 
         private void SetLeague(LeagueName league)
@@ -75,7 +75,7 @@ namespace MVCApp.Core.Domain
                 throw new Exception("League name cannot be empty");
             }
 
-            League = league;
+            League = league.ToString();
         }
 
         private void SetSpots(int? spots)

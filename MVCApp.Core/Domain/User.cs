@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using MVCApp.Core.Enums;
 
 namespace MVCApp.Core.Domain
 {
     public class User
     {
         public User(Guid userId, string email, string ign, string password,
-            string salt, string role)
+            string salt, SystemRole role)
         {
             SetUserId(userId);
             SetEmail(email);
@@ -69,14 +70,13 @@ namespace MVCApp.Core.Domain
             Ign = ign;
         }
 
-        private void SetRole(string role)
+        private void SetRole(SystemRole role)
         {
-            if (string.IsNullOrWhiteSpace(role))
+            if (string.IsNullOrWhiteSpace(role.ToString()))
             {
                 throw new ArgumentNullException($"{nameof(role)} cannot be empty");
             }
-
-            Role = role;
+            Role = role.ToString();
         }
 
         private void SetPassword(string password, string salt)

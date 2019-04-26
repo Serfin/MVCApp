@@ -11,5 +11,10 @@ namespace MVCApp.Infrastructure.Services
         Task CreateRotationAsync(Guid rotationId, Guid userId, LeagueName league, RotationType type, int spots);
 
         Task<IEnumerable<RotationDto>> GetAllAsync();
+
+        Task JoinRotationAsync(Guid userId, Guid rotationId);
+        Task LeaveRotationAsync(Guid userId, Guid rotationId);
+
+        Task DeleteRotation(Guid rotationId);
     }
 }

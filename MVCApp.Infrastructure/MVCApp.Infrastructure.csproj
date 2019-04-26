@@ -60,14 +60,16 @@
     <Compile Include="Repositories\RotationRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Services\Encrypter.cs" />
+    <Compile Include="Services\IAccountService.cs" />
     <Compile Include="Services\IEncrypter.cs" />
     <Compile Include="Services\IRotationService.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\RotationService.cs" />
-    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\AccountService.cs" />
     <Compile Include="DTO\RotationDto.cs" />
     <Compile Include="DTO\UserDto.cs" />
+    <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

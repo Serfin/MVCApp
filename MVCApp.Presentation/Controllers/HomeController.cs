@@ -11,13 +11,15 @@ namespace MVCApp.Presentation.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IAccountService _accountService;
         private readonly IUserService _userService;
         private readonly IRotationService _rotationService;
         private readonly ICommandHandler<RegisterUser> _commandHandler;
 
-        public HomeController(IUserService userService, IRotationService rotationService,
+        public HomeController(IAccountService accountService, IUserService userService, IRotationService rotationService,
             ICommandHandler<RegisterUser> commandHandler)
         {
+            _accountService = accountService;
             _userService = userService;
             _rotationService = rotationService;
             _commandHandler = commandHandler;
@@ -59,19 +61,19 @@ namespace MVCApp.Presentation.Controllers
 
         public async Task<ActionResult> Details(Guid id)
         {
-            var user = await _userService.GetByIdAsync(id);
+            var user = await _accountService.GetByIdAsync(id);
             return View(user);
         }
 
         public async Task<ActionResult> List()
         {
-            var users = await _userService.GetAllAsync();
+            var users = await _accountService.GetAllAsync();
             return View(users);
         }
 
         public async Task<ActionResult> Delete(Guid id)
         {
-            var user = await _userService.GetByIdAsync(id);
+            var user = await _accountService.GetByIdAsync(id);
             return View(user);
         }
 
@@ -111,7 +113,7 @@ namespace MVCApp.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _userService.DeleteUserAsync(id);
+                await _accountService.DeleteAccountAsync(id);
                 return RedirectToAction("List");
             }
 

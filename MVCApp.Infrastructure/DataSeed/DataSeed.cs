@@ -16,18 +16,18 @@ namespace MVCApp.Infrastructure.DataSeed
         private readonly MVCAppContext _context;
         private readonly IUserRepository _userRepository;
         private readonly IRotationRepository _rotationRepository;
-        private readonly IUserService _userService;
+        private readonly IAccountService _accountService;
         private readonly IRotationService _rotationService;
 
         public DataSeed(IMapper mapper, IEncrypter encrypter, MVCAppContext context, IUserRepository userRepository,
-            IRotationRepository rotationRepository, IUserService userService, IRotationService rotationService)
+            IRotationRepository rotationRepository, IAccountService accountService, IRotationService rotationService)
         {
             _mapper = mapper;
             _encrypter = encrypter;
             _context = context;
             _userRepository = userRepository;
             _rotationRepository = rotationRepository;
-            _userService = userService;
+            _accountService = accountService;
             _rotationService = rotationService;
         }
 
@@ -36,7 +36,7 @@ namespace MVCApp.Infrastructure.DataSeed
             for (int i = 0; i < 100; i++)
             {
                 var guid = Guid.NewGuid();
-                await _userService.RegisterAsync(guid, $"test-email{i}", $"test-ign{i}",
+                await _accountService.RegisterAsync(guid, $"test-email{i}", $"test-ign{i}",
                     "123qwe123", SystemRole.User);
 
                 Random rnd = new Random();
