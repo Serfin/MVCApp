@@ -149,8 +149,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Mappings\AutoMapperConfiguration.cs" />
-    <Compile Include="Models\LoginViewModel.cs" />
-    <Compile Include="Models\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
