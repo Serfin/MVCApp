@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MVCApp.Infrastructure.DTO.RotationDto>
+﻿@model IEnumerable<MVCApp.Common.ViewModels.RotationViewModel>
 
 <!-- Filters -->
 <div class="row">
@@ -22,20 +22,22 @@
     <!-- Cards -->
     <div class="col-lg-10">
         <!-- Group 1 -->
-
-            @foreach (var rotation in Model)
+            @if (Model != null)
             {
-                <div class="card-group mb-1">
-                     <div class="card">
-                         <div class="card-body">
-                             <h5 class="card-title">@rotation.Creator</h5>
-                             <p class="card-text">@rotation.League</p>
-                             <p class="card-text">@rotation.Spots</p>
-                             <p class="card-text"><small class="text-muted">Created 3 mins ago</small></p>
-                        </div>
-                    </div>
-                </div>
-             }
+                foreach (var rotation in Model)
+                {
+                     <div class="card-group mb-1">
+                         <div class="card">
+                             <div class="card-body">
+                                 <h5 class="card-title">@rotation.Creator</h5>
+                                 <p class="card-text">@rotation.League</p>
+                                 <p class="card-text">@rotation.Spots</p>
+                                 <p class="card-text"><small class="text-muted">Created 3 mins ago</small></p>
+                             </div>
+                         </div>
+                     </div>
+                }
+            }
      </div>
  </div>
 <!-- Pagination -->
@@ -44,16 +46,16 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
+                    <a class="page-link" href="@Url.Action("ButtonPrevious", "Rotations")" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
                     </a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="@Url.Action("BrowseRotations", "Rotations", 1)">1</a></li>
+                <li class="page-item"><a class="page-link" href="@Url.Action("BrowseRotations", "Rotations", 2)">2</a></li>
+                <li class="page-item"><a class="page-link" href="@Url.Action("BrowseRotations", "Rotations", 3)">3</a></li>
                 <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
+                    <a class="page-link" href="@Url.Action("ButtonNext", "Rotations")" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>
                     </a>

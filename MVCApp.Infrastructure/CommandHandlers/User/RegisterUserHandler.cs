@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MVCApp.Core.Enums;
 using MVCApp.Infrastructure.Commands.User;
-using MVCApp.Infrastructure.Services;
+using MVCApp.Infrastructure.Interfaces;
 
 namespace MVCApp.Infrastructure.CommandHandlers.User
 {

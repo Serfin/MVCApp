@@ -1,13 +1,8 @@
 ﻿using System;
-using System.EnterpriseServices;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using AutoMapper;
 using MVCApp.Core.Enums;
-using MVCApp.Core.Repositories;
-using MVCApp.Data.EntityFramework;
-using MVCApp.Infrastructure.DataSeed;
-using MVCApp.Infrastructure.Services;
+using MVCApp.Infrastructure.Interfaces;
 
 namespace MVCApp.Presentation.Controllers
 {

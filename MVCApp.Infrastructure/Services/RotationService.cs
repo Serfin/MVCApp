@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using MVCApp.Common.ViewModels;
 using MVCApp.Core.Domain;
 using MVCApp.Core.Enums;
-using MVCApp.Core.Repositories;
-using MVCApp.Infrastructure.DTO;
+using MVCApp.Infrastructure.Interfaces;
 
 namespace MVCApp.Infrastructure.Services
 {
@@ -29,13 +29,13 @@ namespace MVCApp.Infrastructure.Services
             var rotation = new Rotation(rotationId, userId, league, type, spots);
 
             await _rotationRepository.AddAsync(rotation);
-        }
+        } 
 
-        public async Task<IEnumerable<RotationDto>> GetAllAsync()
+        public async Task<IEnumerable<RotationViewModel>> GetPageAsync(int page = 1, int pageSize = 10)
         {
-            var rotations = await _rotationRepository.GetAllAsync();
+            var rotations = await _rotationRepository.GetPageAsync(page, pageSize);
 
-            return _mapper.Map<IEnumerable<Rotation>, IEnumerable<RotationDto>>(rotations);
+            return _mapper.Map<IEnumerable<Rotation>, IEnumerable<RotationViewModel>>(rotations);
         }
 
         // TODO : Add validation

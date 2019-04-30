@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MVCApp.Core.Domain;
 using MVCApp.Core.Enums;
-using MVCApp.Core.Repositories;
+using MVCApp.Infrastructure.Interfaces;
 using MVCApp.Data.EntityFramework;
 
 namespace MVCApp.Infrastructure.Repositories
@@ -26,8 +26,13 @@ namespace MVCApp.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Rotation>> GetAllAsync()
-            => await _context.Rotations.ToListAsync();
+        public async Task<IEnumerable<Rotation>> GetPageAsync(int page = 1, int pageSize = 10)
+        {
+            var skip = (page - 1) * pageSize;
+            var result = await _context.Rotations.OrderBy(x => x.Spots).Skip(skip).Take(pageSize).ToListAsync();
+
+            return result;
+        }
 
         public async Task<Rotation> GetById(Guid rotationId)
             => await _context.Rotations.SingleOrDefaultAsync(x => x.RotationId == rotationId);

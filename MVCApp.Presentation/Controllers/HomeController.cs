@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using MVCApp.Common.ViewModels;
 using MVCApp.Infrastructure.CommandHandlers;
 using MVCApp.Infrastructure.Commands.User;
-using MVCApp.Infrastructure.Services;
-using MVCApp.Presentation.Models;
+using MVCApp.Infrastructure.Interfaces;
 
 namespace MVCApp.Presentation.Controllers
 {

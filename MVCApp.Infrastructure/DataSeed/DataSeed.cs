@@ -2,10 +2,8 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using MVCApp.Core.Enums;
-using MVCApp.Core.Repositories;
+using MVCApp.Infrastructure.Interfaces;
 using MVCApp.Data.EntityFramework;
-using MVCApp.Infrastructure.Repositories;
-using MVCApp.Infrastructure.Services;
 
 namespace MVCApp.Infrastructure.DataSeed
 {

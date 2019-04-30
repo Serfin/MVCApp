@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Threading.Tasks;
 using MVCApp.Core.Domain;
-using MVCApp.Core.Repositories;
+using MVCApp.Infrastructure.Interfaces;
 using MVCApp.Data.EntityFramework;
 
 namespace MVCApp.Infrastructure.Repositories

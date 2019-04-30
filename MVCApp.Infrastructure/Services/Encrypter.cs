@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
+using MVCApp.Infrastructure.Interfaces;
 
 namespace MVCApp.Infrastructure.Services
 {

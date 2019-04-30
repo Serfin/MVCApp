@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using AutoMapper;
-using MVCApp.Core.Repositories;
+using MVCApp.Infrastructure.Interfaces;
 
 namespace MVCApp.Infrastructure.Services
 {

@@ -9,5 +9,6 @@
         CruelLabyrinth,
         MercilessLabyrinth,
         UserLabyrinth,
+        ChallengeRotation
     }
 }
