@@ -14,11 +14,11 @@ namespace MVCApp.Infrastructure.DataSeed
         private readonly MVCAppContext _context;
         private readonly IUserRepository _userRepository;
         private readonly IRotationRepository _rotationRepository;
-        private readonly IAccountService _accountService;
+        private readonly IUserService _accountService;
         private readonly IRotationService _rotationService;
 
         public DataSeed(IMapper mapper, IEncrypter encrypter, MVCAppContext context, IUserRepository userRepository,
-            IRotationRepository rotationRepository, IAccountService accountService, IRotationService rotationService)
+            IRotationRepository rotationRepository, IUserService accountService, IRotationService rotationService)
         {
             _mapper = mapper;
             _encrypter = encrypter;

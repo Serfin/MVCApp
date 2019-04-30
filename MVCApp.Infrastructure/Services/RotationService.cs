@@ -12,11 +12,11 @@ namespace MVCApp.Infrastructure.Services
     public class RotationService : IRotationService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IAccountService _accountService;
+        private readonly IUserService _accountService;
         private readonly IRotationRepository _rotationRepository;
         private readonly IMapper _mapper;
 
-        public RotationService(IUserRepository userRepository, IAccountService accountService, IRotationRepository rotationRepository, IMapper mapper)
+        public RotationService(IUserRepository userRepository, IUserService accountService, IRotationRepository rotationRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _accountService = accountService;

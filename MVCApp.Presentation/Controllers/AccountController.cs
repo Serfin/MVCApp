@@ -14,10 +14,10 @@ namespace MVCApp.Presentation.Controllers
             return View();
         }
 
-        private readonly IAccountService _accountService;
+        private readonly IUserService _accountService;
         private readonly IRotationService _rotationService;
 
-        public AccountController(IAccountService accountService, IRotationService rotationService)
+        public AccountController(IUserService accountService, IRotationService rotationService)
         {
             _accountService = accountService;
             _rotationService = rotationService;

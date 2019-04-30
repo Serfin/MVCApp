@@ -11,12 +11,12 @@ namespace MVCApp.Presentation.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IAccountService _accountService;
+        private readonly IUserService _accountService;
         private readonly IUserService _userService;
         private readonly IRotationService _rotationService;
         private readonly ICommandHandler<RegisterUser> _commandHandler;
 
-        public HomeController(IAccountService accountService, IUserService userService, IRotationService rotationService,
+        public HomeController(IUserService accountService, IUserService userService, IRotationService rotationService,
             ICommandHandler<RegisterUser> commandHandler)
         {
             _accountService = accountService;

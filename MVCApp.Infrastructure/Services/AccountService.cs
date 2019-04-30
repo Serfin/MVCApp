@@ -9,13 +9,13 @@ using MVCApp.Infrastructure.Interfaces;
 
 namespace MVCApp.Infrastructure.Services
 {
-    public class AccountService : IAccountService
+    public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
         private readonly IEncrypter _encrypter;
         private readonly IMapper _mapper;
 
-        public AccountService(IUserRepository userRepository, IEncrypter encrypter, IMapper mapper)
+        public UserService(IUserRepository userRepository, IEncrypter encrypter, IMapper mapper)
         {
             _userRepository = userRepository;
             _encrypter = encrypter;
@@ -42,6 +42,19 @@ namespace MVCApp.Infrastructure.Services
 
             user = new User(userId, email, ign, hash, salt, role);
             await _userRepository.AddAsync(user);
+        }
+
+        public async Task LoginAsync(string email, string password)
+        {
+            var user = await _userRepository.GetByEmailAsync(email);
+
+            if (user == null)
+                throw new ArgumentException("Invalid credentials");
+
+            var hash = _encrypter.GetHash(password, user.Salt);
+
+            if (user.Password != hash)
+                throw new ArgumentException("Invalid credentials");
         }
 
         public async Task<IEnumerable<UserViewModel>> GetAllAsync()
