@@ -55,7 +55,6 @@
     <Compile Include="CommandHandlers\User\RegisterUserHandler.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\User\RegisterUser.cs" />
-    <Compile Include="DataSeed\DataSeed.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Interfaces\IEncrypter.cs" />
     <Compile Include="Interfaces\IRepository.cs" />

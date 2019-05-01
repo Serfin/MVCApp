@@ -8,7 +8,7 @@ namespace MVCApp.Core.Domain
     public class Rotation
     {
         private ISet<User> _members = new HashSet<User>();
-        public Rotation(Guid rotationId, Guid creator, LeagueName league, RotationType type, int? spots)
+        public Rotation(Guid rotationId, string creator, LeagueName league, RotationType type, int? spots)
         {
             SetRotationId(rotationId);
             SetCreator(creator);
@@ -26,7 +26,7 @@ namespace MVCApp.Core.Domain
         // Entity Framework one-to-one relation class
         public User User { get; set; }
         [ForeignKey("User")]
-        public Guid Creator { get; protected set; }
+        public string Creator { get; protected set; }
 
         public Guid RotationId { get; protected set; }
         public string League { get; protected set; }
@@ -48,14 +48,9 @@ namespace MVCApp.Core.Domain
             RotationId = rotationId;
         }
 
-        private void SetCreator(Guid creator)
+        private void SetCreator(string creator)
         {
-            if (creator == null)
-            {
-                throw new Exception("Rotation must contain creator");
-            }
-
-            Creator = creator;
+            Creator = creator ?? throw new Exception("Rotation must contain creator");
         }
 
         private void SetType(RotationType type)
@@ -110,7 +105,7 @@ namespace MVCApp.Core.Domain
             {
                 throw new Exception("User with this ID is already in this rotation");
             }
-            if (member.UserId == Creator)
+            if (member.Ign == Creator)
             {
                 throw new Exception("User cannot join his own rotation");
             }
@@ -129,7 +124,7 @@ namespace MVCApp.Core.Domain
             {
                 throw new Exception("User does not exist in this rotation");
             }
-            if (member.UserId == Creator)
+            if (member.Ign == Creator)
             {
                 throw new Exception("User cannot be from his own rotation");
             }
