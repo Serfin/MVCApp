@@ -1,24 +1,30 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+using AutoMapper;
 using MVCApp.Core.Enums;
 using MVCApp.Infrastructure.Interfaces;
+using MVCApp.Data.EntityFramework;
 
-namespace MVCApp.Presentation.Controllers
+namespace MVCApp.Infrastructure.DataSeed
 {
-    public class AccountController : Controller
+    public class DataSeed
     {
-        public async Task<ActionResult> Index()
-        {
-            await CreateUsers(100);
-            return View();
-        }
-
+        private readonly IMapper _mapper;
+        private readonly IEncrypter _encrypter;
+        private readonly MVCAppContext _context;
+        private readonly IUserRepository _userRepository;
+        private readonly IRotationRepository _rotationRepository;
         private readonly IAccountService _accountService;
         private readonly IRotationService _rotationService;
 
-        public AccountController(IAccountService accountService, IRotationService rotationService)
+        public DataSeed(IMapper mapper, IEncrypter encrypter, MVCAppContext context, IUserRepository userRepository,
+            IRotationRepository rotationRepository, IAccountService accountService, IRotationService rotationService)
         {
+            _mapper = mapper;
+            _encrypter = encrypter;
+            _context = context;
+            _userRepository = userRepository;
+            _rotationRepository = rotationRepository;
             _accountService = accountService;
             _rotationService = rotationService;
         }

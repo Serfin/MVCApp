@@ -51,23 +51,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandHandlers\ICommandHandler.cs" />
+    <Compile Include="CommandHandlers\User\RegisterUserHandler.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\User\RegisterUser.cs" />
+    <Compile Include="DataSeed\DataSeed.cs" />
+    <Compile Include="Interfaces\IAccountService.cs" />
+    <Compile Include="Interfaces\IEncrypter.cs" />
+    <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\IRotationRepository.cs" />
+    <Compile Include="Interfaces\IRotationService.cs" />
+    <Compile Include="Interfaces\IService.cs" />
+    <Compile Include="Interfaces\IUserRepository.cs" />
+    <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\RotationRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Services\Encrypter.cs" />
-    <Compile Include="Services\IEncrypter.cs" />
-    <Compile Include="Services\IRotationService.cs" />
-    <Compile Include="Services\IService.cs" />
-    <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\RotationService.cs" />
+    <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\UserService.cs" />
-    <Compile Include="ViewModels\RotationViewModel.cs" />
-    <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MVCApp.Common\MVCApp.Common.csproj">
+      <Project>{6E08FBFC-912E-4ACE-A0E3-781B769AB49F}</Project>
+      <Name>MVCApp.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MVCApp.Core\MVCApp.Core.csproj">
       <Project>{997253c1-cc9e-4bb0-b32e-9a2b41858f4d}</Project>
       <Name>MVCApp.Core</Name>

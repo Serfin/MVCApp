@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MVCApp.Infrastructure.ViewModels
+namespace MVCApp.Common.ViewModels
 {
     public class RotationViewModel
     {

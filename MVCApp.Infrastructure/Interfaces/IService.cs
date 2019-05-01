@@ -1,4 +1,4 @@
-﻿namespace MVCApp.Infrastructure.Services
+﻿namespace MVCApp.Infrastructure.Interfaces
 {
     // Marker interface
     public interface IService

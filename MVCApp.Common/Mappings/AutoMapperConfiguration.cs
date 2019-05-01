@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using ExileRota.Core.Domain;
+using MVCApp.Common.ViewModels;
 using MVCApp.Core.Domain;
-using MVCApp.Infrastructure.ViewModels;
 
-namespace MVCApp.Presentation.Mappings
+namespace MVCApp.Common.Mappings
 {
     public static class AutoMapperConfiguration
     {

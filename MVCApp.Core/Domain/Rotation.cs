@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using MVCApp.Core.Domain;
+using MVCApp.Core.Enums;
 
-namespace ExileRota.Core.Domain
+namespace MVCApp.Core.Domain
 {
     public class Rotation
     {
         private ISet<User> _members = new HashSet<User>();
-        public Rotation(Guid rotationId, Guid creator, string league, string type, int? spots)
+        public Rotation(Guid rotationId, Guid creator, LeagueName league, RotationType type, int? spots)
         {
             SetRotationId(rotationId);
             SetCreator(creator);
@@ -58,24 +58,24 @@ namespace ExileRota.Core.Domain
             Creator = creator;
         }
 
-        private void SetType(string type)
+        private void SetType(RotationType type)
         {
-            if (string.IsNullOrWhiteSpace(type))
+            if (string.IsNullOrWhiteSpace(type.ToString()))
             {
                 throw new Exception("Type cannot be empty");
             }
 
-            Type = type;
+            Type = type.ToString();
         }
 
-        private void SetLeague(string league)
+        private void SetLeague(LeagueName league)
         {
-            if (string.IsNullOrWhiteSpace(league))
+            if (string.IsNullOrWhiteSpace(league.ToString()))
             {
                 throw new Exception("League name cannot be empty");
             }
 
-            League = league;
+            League = league.ToString();
         }
 
         private void SetSpots(int? spots)
