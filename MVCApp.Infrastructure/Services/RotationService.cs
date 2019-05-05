@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using MVCApp.Common.Exceptions;
 using MVCApp.Common.ViewModels;
 using MVCApp.Core.Domain;
 using MVCApp.Core.Enums;
@@ -12,14 +13,12 @@ namespace MVCApp.Infrastructure.Services
     public class RotationService : IRotationService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IUserService _accountService;
         private readonly IRotationRepository _rotationRepository;
         private readonly IMapper _mapper;
 
-        public RotationService(IUserRepository userRepository, IUserService accountService, IRotationRepository rotationRepository, IMapper mapper)
+        public RotationService(IUserRepository userRepository, IRotationRepository rotationRepository, IMapper mapper)
         {
             _userRepository = userRepository;
-            _accountService = accountService;
             _rotationRepository = rotationRepository;
             _mapper = mapper;
         }
@@ -29,16 +28,20 @@ namespace MVCApp.Infrastructure.Services
             var rotation = new Rotation(rotationId, userId, league, type, spots);
 
             await _rotationRepository.AddAsync(rotation);
-        } 
+        }
 
-        public async Task<IEnumerable<RotationViewModel>> GetPageAsync(int page = 1, int pageSize = 10)
+        public async Task<IEnumerable<RotationViewModel>> GetPageAsync(int page, int pageSize)
         {
+            if (page < 1 || pageSize % 12 != 0)
+            {
+                throw new InvalidPaginationArgument();
+            }
+
             var rotations = await _rotationRepository.GetPageAsync(page, pageSize);
 
             return _mapper.Map<IEnumerable<Rotation>, IEnumerable<RotationViewModel>>(rotations);
         }
 
-        // TODO : Add validation
         public async Task JoinRotationAsync(Guid userId, Guid rotationId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
