@@ -1,10 +1,72 @@
-﻿@model IEnumerable<MVCApp.Common.ViewModels.RotationViewModel>
+﻿@using Newtonsoft.Json
+@model IEnumerable<MVCApp.Common.ViewModels.RotationViewModel>
+
+<script>
+    function addCard(i, model) {
+        var cardDiv = document.createElement("div");
+
+        cardDiv.innerHTML =
+            '<div class="card">\
+                <div class="card-body">\
+                    <h5 class="card-title">' + model.Creator + '</h5>\
+                    <p class="card-text">' + model.League + '</p>\
+                    <p class="card-text">' + model.Type + '</p>\
+                    <p class="card-text">' + model.Spots + '</p>\
+                    <p class="card-text"><small class="text-muted">Created at ' + model.CreationTime + '</small></p>\
+                    <button class="btn btn-default btn-primary"> Join </button>\
+                </div>\
+            </div>';
+
+        document.getElementById("rotation-row-" + i).appendChild(cardDiv);
+    }
+
+    function addRow(i) {
+        var rowDiv = document.createElement("div");
+
+        rowDiv.innerHTML = '<div id="rotation-row-' + i + '" class="card-group mb-1">' +
+            '</div>';
+
+        document.getElementById("Rotations").appendChild(rowDiv);
+    }
+
+    function populateRotations(convertedArray) {
+        var cardIndex = 0;
+        var amountOfRows = convertedArray.length / 3;
+        for (var i = 0; i < amountOfRows; i++) {
+            addRow(i);
+            for (var z = 0; z < 3; z++) {
+                addCard(i, convertedArray[cardIndex]);
+                cardIndex++;
+            }
+        }
+    }
+
+    var currentPage = 1;
+    var pageSize = 12;
+
+    function pageNext() {
+        var page = window.location = '?page=' + (currentPage + 1);
+        currentPage++;
+        return page;
+    }
+
+    function pagePrev() {
+        if (currentPage > 1) {
+            var page = window.location = '?page=' + (currentPage - 1);
+            currentPage++;
+            return page;
+        }
+        else
+            return window.location = '?page=' + currentPage;
+    }
+
+</script>
 
 <!-- Filters -->
 <div class="row">
     <div class="col-lg-2">
         <h6 class="text-left"> Rotation type </h6>
-        <select class="form-control form-control-sm my-3">
+        <select class="form-control form-control-sm my-3">s
             <option> Master rotation </option>
             <option> Lab rotation </option>
             <option> Challenge rotation </option>
@@ -20,42 +82,33 @@
         <button type="button" class="btn btn-default btn-primary mb-3"> Apply </button>
     </div>
     <!-- Cards -->
-    <div class="col-lg-10">
+    <div class="col-lg-10" id="Rotations">
         <!-- Group 1 -->
-            @if (Model != null)
-            {
-                foreach (var rotation in Model)
-                {
-                     <div class="card-group mb-1">
-                         <div class="card">
-                             <div class="card-body">
-                                 <h5 class="card-title">@rotation.Creator</h5>
-                                 <p class="card-text">@rotation.League</p>
-                                 <p class="card-text">@rotation.Spots</p>
-                                 <p class="card-text"><small class="text-muted">Created 3 mins ago</small></p>
-                             </div>
-                         </div>
-                     </div>
-                }
-            }
-     </div>
- </div>
+        @if (Model != null)
+        {
+            <script>
+                var models = @Html.Raw(JsonConvert.SerializeObject(Model));
+                populateRotations(models);
+            </script>
+        }
+    </div>
+</div>
 <!-- Pagination -->
 <div class="row py-2">
     <div class="col-lg-12 d-flex justify-content-end">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" href="@Url.Action("ButtonPrevious", "Rotations")" aria-label="Previous">
+                    <a class="page-link" href="#" onclick="pagePrev()" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
                     </a>
                 </li>
-                <li class="page-item"><a class="page-link" href="@Url.Action("BrowseRotations", "Rotations", 1)">1</a></li>
-                <li class="page-item"><a class="page-link" href="@Url.Action("BrowseRotations", "Rotations", 2)">2</a></li>
-                <li class="page-item"><a class="page-link" href="@Url.Action("BrowseRotations", "Rotations", 3)">3</a></li>
+                <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+                <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
                 <li class="page-item">
-                    <a class="page-link" href="@Url.Action("ButtonNext", "Rotations")" aria-label="Next">
+                    <a class="page-link" href="#" onclick="pageNext()" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>
                     </a>
@@ -64,3 +117,4 @@
         </nav>
     </div>
 </div>
+ 
