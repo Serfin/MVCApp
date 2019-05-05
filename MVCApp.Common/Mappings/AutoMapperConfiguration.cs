@@ -13,6 +13,7 @@ namespace MVCApp.Common.Mappings
                     .ReverseMap();
 
                 config.CreateMap<Rotation, RotationViewModel>()
+                    .ForMember(x => x.Creator, y => y.MapFrom(x => x.CreatorIgn))
                     .ReverseMap();
 
             }).CreateMapper();

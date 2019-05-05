@@ -23,9 +23,9 @@ namespace MVCApp.Infrastructure.Services
             _mapper = mapper;
         }
 
-        public async Task CreateRotationAsync(Guid rotationId, Guid userId, LeagueName league, RotationType type, int spots)
+        public async Task CreateRotationAsync(Guid rotationId, Guid userId, string creatorIgn, LeagueName league, RotationType type, int spots)
         {
-            var rotation = new Rotation(rotationId, userId, league, type, spots);
+            var rotation = new Rotation(rotationId, userId, creatorIgn, league, type, spots);
 
             await _rotationRepository.AddAsync(rotation);
         }
@@ -45,7 +45,7 @@ namespace MVCApp.Infrastructure.Services
         public async Task JoinRotationAsync(Guid userId, Guid rotationId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
-            var rotation = await _rotationRepository.GetById(rotationId);
+            var rotation = await _rotationRepository.GetByRotationId(rotationId);
 
             rotation.AddMember(user);
             await _rotationRepository.UpdateRotationAsync(rotation);
@@ -54,7 +54,7 @@ namespace MVCApp.Infrastructure.Services
         public async Task LeaveRotationAsync(Guid userId, Guid rotationId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
-            var rotation = await _rotationRepository.GetById(rotationId);
+            var rotation = await _rotationRepository.GetByRotationId(rotationId);
 
             rotation.DeleteMember(user);
             await _rotationRepository.UpdateRotationAsync(rotation);

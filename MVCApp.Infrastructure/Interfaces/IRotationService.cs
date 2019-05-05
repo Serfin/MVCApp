@@ -8,7 +8,7 @@ namespace MVCApp.Infrastructure.Interfaces
 {
     public interface IRotationService : IService
     {
-        Task CreateRotationAsync(Guid rotationId, Guid userId, LeagueName league, RotationType type, int spots);
+        Task CreateRotationAsync(Guid rotationId, Guid userId, string creatorIgn, LeagueName league, RotationType type, int spots);
 
         Task<IEnumerable<RotationViewModel>> GetPageAsync(int page, int pageSize);
 

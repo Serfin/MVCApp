@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using MVCApp.Common.ViewModels;
 using MVCApp.Infrastructure.Interfaces;
 
 namespace MVCApp.Presentation.Controllers
@@ -8,34 +10,16 @@ namespace MVCApp.Presentation.Controllers
     public class RotationsController : Controller
     {
         private readonly IRotationService _rotationService;
-        private int CurrentPage { get; set; }
 
         public RotationsController(IRotationService rotationService)
         {
             _rotationService = rotationService;
         }
 
-        public async Task<ActionResult> ButtonPrevious()
+        public async Task<ActionResult> BrowseRotations(int page = 1, int pageSize = 12)
         {
-            if (CurrentPage > 1)
-            {
-                var rotations = await _rotationService.GetPageAsync(CurrentPage - 1);
-                return View("BrowseRotations", rotations);
-            }
+            var rotations = await _rotationService.GetPageAsync(page, pageSize);
 
-            return View("BrowseRotations");
-        }
-
-        public async Task<ActionResult> ButtonNext()
-        {
-            var rotations = await _rotationService.GetPageAsync(CurrentPage + 1);
-            return View("BrowseRotations", rotations);
-        }
-        
-        public async Task<ActionResult> BrowseRotations(int page = 1)
-        {
-            CurrentPage = page;
-            var rotations = await _rotationService.GetPageAsync(page);
             return View(rotations);
         }
 

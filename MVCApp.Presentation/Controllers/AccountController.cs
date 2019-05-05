@@ -33,7 +33,32 @@ namespace MVCApp.Presentation.Controllers
 
                 Random rnd = new Random();
 
-                await _rotationService.CreateRotationAsync(Guid.NewGuid(), guid, LeagueName.Delve, RotationType.CruelLabyrinth, rnd.Next(1, 5));
+                string test = $"test-ign{i}";
+                int spots = rnd.Next(1, 6);
+                LeagueName league;
+                RotationType rotationType;
+
+                switch (spots)
+                {
+                    case 1:
+                        league = LeagueName.Beyond;
+                        rotationType = RotationType.ChallengeRotation;
+                        break;
+                    case 2:
+                        league = LeagueName.Breach;
+                        rotationType = RotationType.CruelLabyrinth;
+                        break;
+                    case 3:
+                        league = LeagueName.Delve;
+                        rotationType = RotationType.MapRotation;
+                        break;
+                    default:
+                        league = LeagueName.Beyond;
+                        rotationType = RotationType.MasterRotation;
+                        break;
+                }
+
+                await _rotationService.CreateRotationAsync(Guid.NewGuid(), guid, test, league, rotationType, spots);
             }
         }
     }
