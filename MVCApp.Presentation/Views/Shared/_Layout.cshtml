@@ -5,9 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ExileRota</title>
- 
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
 </head>
 <body>
     <div class="container">
@@ -21,6 +22,9 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <div class="navbar-nav">
                             <a class="nav-link" href="@Url.Action("BrowseRotations", "Home")">Browse rotations</a>
+                            <a class="nav-link" href="@Url.Action("Register", "Home")">Register</a>
+                            <a class="nav-link" href="@Url.Action("Login", "Home")">Login</a>
+                            <a class="nav-link" href="@Url.Action("Logout", "Home")">Logout</a>
                         </div>
                     </div>
                 </nav> 

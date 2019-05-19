@@ -32,14 +32,21 @@ namespace MVCApp.Infrastructure.Services
 
         public async Task<IEnumerable<RotationViewModel>> GetPageAsync(int page, int pageSize)
         {
-            if (page < 1 || pageSize % 12 != 0)
+            try
             {
-                throw new InvalidPaginationArgument();
+                if (page < 1 || pageSize % 12 != 0)
+                {
+                    throw new InvalidPaginationArgument();
+                }
+
+                var rotations = await _rotationRepository.GetPageAsync(page, pageSize);
+
+                return _mapper.Map<IEnumerable<Rotation>, IEnumerable<RotationViewModel>>(rotations);
             }
-
-            var rotations = await _rotationRepository.GetPageAsync(page, pageSize);
-
-            return _mapper.Map<IEnumerable<Rotation>, IEnumerable<RotationViewModel>>(rotations);
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         public async Task JoinRotationAsync(Guid userId, Guid rotationId)

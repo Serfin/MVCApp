@@ -44,11 +44,6 @@ namespace MVCApp.Presentation.Controllers
             return View();
         }
 
-        public ActionResult SignIn()
-        {
-            return View();
-        }
-
         public ActionResult BrowseRotations()
         {
             return RedirectToAction("BrowseRotations", "Rotations");
@@ -71,15 +66,22 @@ namespace MVCApp.Presentation.Controllers
             return View(users);
         }
 
+        [HttpGet]
         public async Task<ActionResult> Delete(Guid id)
         {
             var user = await _accountService.GetByIdAsync(id);
             return View(user);
         }
 
+        [HttpGet]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SignIn(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
