@@ -1,14 +1,15 @@
-﻿@using Newtonsoft.Json
-@model IEnumerable<MVCApp.Common.ViewModels.RotationViewModel>
+﻿<script src="~/Scripts/BrowseRotations/pagination.js"></script>
+@Scripts.Render("~/bundles/jquery")
 
-<script src="~/Scripts/BrowseRotations/pagination.js"></script>
-<script src="~/Scripts/BrowseRotations/rotationsGrid.js"></script>
+<script>
+    getPage('btn1');
+</script>
 
 <!-- Filters -->
 <div class="row">
     <div class="col-lg-2">
         <h6 class="text-left"> Rotation type </h6>
-        <select class="form-control form-control-sm my-3">s
+        <select class="form-control form-control-sm my-3">
             <option> Master rotation </option>
             <option> Lab rotation </option>
             <option> Challenge rotation </option>
@@ -26,13 +27,6 @@
     <!-- Cards -->
     <div class="col-lg-10" id="Rotations">
         <!-- Group 1 -->
-        @if (Model != null)
-        {
-            <script>
-                var models = @Html.Raw(JsonConvert.SerializeObject(Model));
-                populateRotations(models);
-            </script>
-        }
     </div>
 </div>
 <!-- Pagination -->
@@ -41,28 +35,28 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" href="#" style="display: none;" onclick="pagePrev()" aria-label="Previous">
+                    <a class="page-link" style="display: none;" onclick="pagePrev()" aria-label="Previous" href="javascript:void(0)">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
                     </a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" onclick="getPage('btn1')" href="#">
+                    <a class="page-link" onclick="getPage('btn1')" href="javascript:void(0)">
                         <span class="btn1">1</span>
                     </a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" onclick="getPage('btn2')" href="#">
+                    <a class="page-link" onclick="getPage('btn2')" href="javascript:void(0)">
                         <span class="btn2">2</span>
                     </a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" onclick="getPage('btn3')" href="#">
+                    <a class="page-link" onclick="getPage('btn3')" href="javascript:void(0)">
                         <span class="btn3">3</span>
                     </a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="#" onclick="pageNext()" aria-label="Next">
+                    <a class="page-link" onclick="pageNext()" aria-label="Next" href="javascript:void(0)">
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>
                     </a>
@@ -71,4 +65,3 @@
         </nav>
     </div>
 </div>
- 

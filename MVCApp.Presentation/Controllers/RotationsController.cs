@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Mvc.Ajax;
 using MVCApp.Common.ViewModels;
 using MVCApp.Infrastructure.Interfaces;
 
@@ -16,11 +17,15 @@ namespace MVCApp.Presentation.Controllers
             _rotationService = rotationService;
         }
 
-        public async Task<ActionResult> BrowseRotations(int page = 1, int pageSize = 12)
+        public ActionResult BrowseRotations()
+        {
+            return View("BrowseRotations");
+        }
+        public async Task<ActionResult> GetRotationsPage(int page = 1, int pageSize = 12)
         {
             var rotations = await _rotationService.GetPageAsync(page, pageSize);
 
-            return View(rotations);
+            return Json(rotations, JsonRequestBehavior.AllowGet);
         }
 
         // TODO : Add validation, authorization

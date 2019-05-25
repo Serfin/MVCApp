@@ -8,6 +8,7 @@
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/BrowseRotations/pagination.js"></script>
 
 </head>
 <body>
@@ -21,7 +22,7 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <div class="navbar-nav">
-                            <a class="nav-link" href="@Url.Action("BrowseRotations", "Home")">Browse rotations</a>
+                            <a class="nav-link" href="@Url.Action("BrowseRotations", "Rotations")">Browse rotations</a>
                             <a class="nav-link" href="@Url.Action("Register", "Home")">Register</a>
                             <a class="nav-link" href="@Url.Action("Login", "Home")">Login</a>
                             <a class="nav-link" href="@Url.Action("Logout", "Home")">Logout</a>
