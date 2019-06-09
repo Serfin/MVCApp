@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using MVCApp.Common.Exceptions;
 using MVCApp.Common.ViewModels;
 using MVCApp.Core.Domain;
 using MVCApp.Core.Enums;
@@ -12,37 +13,46 @@ namespace MVCApp.Infrastructure.Services
     public class RotationService : IRotationService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IAccountService _accountService;
         private readonly IRotationRepository _rotationRepository;
         private readonly IMapper _mapper;
 
-        public RotationService(IUserRepository userRepository, IAccountService accountService, IRotationRepository rotationRepository, IMapper mapper)
+        public RotationService(IUserRepository userRepository, IRotationRepository rotationRepository, IMapper mapper)
         {
             _userRepository = userRepository;
-            _accountService = accountService;
             _rotationRepository = rotationRepository;
             _mapper = mapper;
         }
 
-        public async Task CreateRotationAsync(Guid rotationId, Guid userId, LeagueName league, RotationType type, int spots)
+        public async Task CreateRotationAsync(Guid rotationId, Guid userId, string creatorIgn, LeagueName league, RotationType type, int spots)
         {
-            var rotation = new Rotation(rotationId, userId, league, type, spots);
+            var rotation = new Rotation(rotationId, userId, creatorIgn, league, type, spots);
 
             await _rotationRepository.AddAsync(rotation);
-        } 
-
-        public async Task<IEnumerable<RotationViewModel>> GetPageAsync(int page = 1, int pageSize = 10)
-        {
-            var rotations = await _rotationRepository.GetPageAsync(page, pageSize);
-
-            return _mapper.Map<IEnumerable<Rotation>, IEnumerable<RotationViewModel>>(rotations);
         }
 
-        // TODO : Add validation
+        public async Task<IEnumerable<RotationViewModel>> GetPageAsync(int page, int pageSize)
+        {
+            try
+            {
+                if (page < 1 || pageSize % 12 != 0)
+                {
+                    throw new InvalidPaginationArgument();
+                }
+
+                var rotations = await _rotationRepository.GetPageAsync(page, pageSize);
+
+                return _mapper.Map<IEnumerable<Rotation>, IEnumerable<RotationViewModel>>(rotations);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
         public async Task JoinRotationAsync(Guid userId, Guid rotationId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
-            var rotation = await _rotationRepository.GetById(rotationId);
+            var rotation = await _rotationRepository.GetByRotationId(rotationId);
 
             rotation.AddMember(user);
             await _rotationRepository.UpdateRotationAsync(rotation);
@@ -51,7 +61,7 @@ namespace MVCApp.Infrastructure.Services
         public async Task LeaveRotationAsync(Guid userId, Guid rotationId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
-            var rotation = await _rotationRepository.GetById(rotationId);
+            var rotation = await _rotationRepository.GetByRotationId(rotationId);
 
             rotation.DeleteMember(user);
             await _rotationRepository.UpdateRotationAsync(rotation);

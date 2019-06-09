@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Runtime.Caching;
 using AutoMapper;
 using MVCApp.Common.ViewModels;
 using MVCApp.Core.Domain;
@@ -9,13 +10,13 @@ using MVCApp.Infrastructure.Interfaces;
 
 namespace MVCApp.Infrastructure.Services
 {
-    public class AccountService : IAccountService
+    public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
         private readonly IEncrypter _encrypter;
         private readonly IMapper _mapper;
 
-        public AccountService(IUserRepository userRepository, IEncrypter encrypter, IMapper mapper)
+        public UserService(IUserRepository userRepository, IEncrypter encrypter, IMapper mapper)
         {
             _userRepository = userRepository;
             _encrypter = encrypter;
@@ -44,6 +45,19 @@ namespace MVCApp.Infrastructure.Services
             await _userRepository.AddAsync(user);
         }
 
+        public async Task LoginAsync(string email, string password)
+        {
+            var user = await _userRepository.GetByEmailAsync(email);
+
+            if (user == null)
+                throw new ArgumentException("Invalid credentials");
+
+            var hash = _encrypter.GetHash(password, user.Salt);
+
+            if (user.Password != hash)
+                throw new ArgumentException("Invalid credentials");
+        }
+
         public async Task<IEnumerable<UserViewModel>> GetAllAsync()
         {
             var users = await _userRepository.GetAllAsync();
@@ -60,6 +74,28 @@ namespace MVCApp.Infrastructure.Services
             if (user == null)
                 throw new ArgumentNullException($"{nameof(user)} does not exist");
 
+            return _mapper.Map<User, UserViewModel>(user);
+        }
+
+        public async Task<UserViewModel> GetByIgnAsync(string ign)
+        {
+            if (string.IsNullOrEmpty(ign))
+            {
+                throw new ArgumentNullException($"{nameof(ign)} does not exist");
+            }
+
+            var user = await _userRepository.GetByIgnAsync(ign);
+            return _mapper.Map<User, UserViewModel>(user);
+        }
+
+        public async Task<UserViewModel> GetByEmailAsync(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new ArgumentNullException($"{nameof(email)} does not exist");
+            }
+
+            var user = await _userRepository.GetByEmailAsync(email);
             return _mapper.Map<User, UserViewModel>(user);
         }
 

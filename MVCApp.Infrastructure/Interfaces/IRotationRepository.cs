@@ -10,10 +10,10 @@ namespace MVCApp.Infrastructure.Interfaces
     {
         Task AddAsync(Rotation rotation);
 
-        Task<Rotation> GetById(Guid rotationId);
-        Task<IEnumerable<Rotation>> GetByType(RotationType type);
-        Task<IEnumerable<Rotation>> GetByCreator(Guid userId);
-        Task<IEnumerable<Rotation>> GetPageAsync(int page = 1, int pageSize = 10);
+        Task<Rotation> GetByRotationId(Guid rotationId);
+        Task<IEnumerable<Rotation>> GetByTypeAsync(RotationType type);
+        Task<IEnumerable<Rotation>> GetByUserId(Guid userId);
+        Task<IEnumerable<Rotation>> GetPageAsync(int page, int pageSize);
 
         Task UpdateRotationAsync(Rotation rotation);
 

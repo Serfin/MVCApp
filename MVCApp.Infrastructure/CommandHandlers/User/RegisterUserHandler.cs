@@ -8,9 +8,9 @@ namespace MVCApp.Infrastructure.CommandHandlers.User
 {
     public class RegisterUserHandler : ICommandHandler<RegisterUser>
     {
-        private readonly IAccountService _accountService;
+        private readonly IUserService _accountService;
 
-        public RegisterUserHandler(IAccountService accountService)
+        public RegisterUserHandler(IUserService accountService)
         {
             _accountService = accountService;
         }

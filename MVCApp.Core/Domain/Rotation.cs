@@ -8,10 +8,11 @@ namespace MVCApp.Core.Domain
     public class Rotation
     {
         private ISet<User> _members = new HashSet<User>();
-        public Rotation(Guid rotationId, Guid creator, LeagueName league, RotationType type, int? spots)
+        public Rotation(Guid rotationId, Guid creator, string creatorIgn, LeagueName league, RotationType type, int? spots)
         {
             SetRotationId(rotationId);
             SetCreator(creator);
+            SetCreatorIgn(creatorIgn);
             SetLeague(league);
             SetType(type);
             SetSpots(spots);
@@ -28,6 +29,7 @@ namespace MVCApp.Core.Domain
         [ForeignKey("User")]
         public Guid Creator { get; protected set; }
 
+        public string CreatorIgn { get; protected set; }
         public Guid RotationId { get; protected set; }
         public string League { get; protected set; }
         public string Type { get; protected set; }
@@ -43,7 +45,9 @@ namespace MVCApp.Core.Domain
         private void SetRotationId(Guid rotationId)
         {
             if (rotationId == null)
+            {
                 throw new ArgumentNullException($"{nameof(rotationId)} cannot be null");
+            }
 
             RotationId = rotationId;
         }
@@ -56,6 +60,16 @@ namespace MVCApp.Core.Domain
             }
 
             Creator = creator;
+        }
+
+        private void SetCreatorIgn(string creatorIgn)
+        {
+            if (string.IsNullOrEmpty(creatorIgn))
+            {
+                throw new ArgumentNullException($"{nameof(creatorIgn)} cannot be null");
+            }
+
+            CreatorIgn = creatorIgn;
         }
 
         private void SetType(RotationType type)

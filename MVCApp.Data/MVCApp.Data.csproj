@@ -69,6 +69,10 @@
     <Compile Include="Migrations\201904262028394_Fixed database data format.Designer.cs">
       <DependentUpon>201904262028394_Fixed database data format.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905051913168_Added creatorIgn field to Rotation table.cs" />
+    <Compile Include="Migrations\201905051913168_Added creatorIgn field to Rotation table.Designer.cs">
+      <DependentUpon>201905051913168_Added creatorIgn field to Rotation table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -96,6 +100,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904262028394_Fixed database data format.resx">
       <DependentUpon>201904262028394_Fixed database data format.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905051913168_Added creatorIgn field to Rotation table.resx">
+      <DependentUpon>201905051913168_Added creatorIgn field to Rotation table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

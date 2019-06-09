@@ -9,9 +9,13 @@ namespace MVCApp.Common.Mappings
         public static IMapper Initialize()
             => new MapperConfiguration(config =>
             {
-                config.CreateMap<User, UserViewModel>();
-                config.CreateMap<UserViewModel, User>();
-                config.CreateMap<Rotation, RotationViewModel>();
+                config.CreateMap<User, UserViewModel>()
+                    .ReverseMap();
+
+                config.CreateMap<Rotation, RotationViewModel>()
+                    .ForMember(x => x.Creator, y => y.MapFrom(x => x.CreatorIgn))
+                    .ReverseMap();
+
             }).CreateMapper();
     }
 }

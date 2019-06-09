@@ -11,12 +11,12 @@ namespace MVCApp.Presentation.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IAccountService _accountService;
+        private readonly IUserService _accountService;
         private readonly IUserService _userService;
         private readonly IRotationService _rotationService;
         private readonly ICommandHandler<RegisterUser> _commandHandler;
 
-        public HomeController(IAccountService accountService, IUserService userService, IRotationService rotationService,
+        public HomeController(IUserService accountService, IUserService userService, IRotationService rotationService,
             ICommandHandler<RegisterUser> commandHandler)
         {
             _accountService = accountService;
@@ -44,11 +44,6 @@ namespace MVCApp.Presentation.Controllers
             return View();
         }
 
-        public ActionResult SignIn()
-        {
-            return View();
-        }
-
         public ActionResult BrowseRotations()
         {
             return RedirectToAction("BrowseRotations", "Rotations");
@@ -71,15 +66,22 @@ namespace MVCApp.Presentation.Controllers
             return View(users);
         }
 
+        [HttpGet]
         public async Task<ActionResult> Delete(Guid id)
         {
             var user = await _accountService.GetByIdAsync(id);
             return View(user);
         }
 
+        [HttpGet]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SignIn(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
