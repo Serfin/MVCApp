@@ -10,7 +10,7 @@ namespace MVCApp.Presentation.Controllers
     {
         public async Task<ActionResult> Index()
         {
-            await CreateUsers(100);
+            //await CreateUsers(100);
             return View();
         }
 
@@ -25,13 +25,14 @@ namespace MVCApp.Presentation.Controllers
 
         public async Task CreateUsers(int amount)
         {
-            for (int i = 0; i < 100; i++)
+            Random rnd = new Random();
+
+            for (int i = 0; i < rnd.Next(90,100); i++)
             {
                 var guid = Guid.NewGuid();
                 await _accountService.RegisterAsync(guid, $"test-email{i}", $"test-ign{i}",
                     "123qwe123", SystemRole.User);
 
-                Random rnd = new Random();
 
                 string test = $"test-ign{i}";
                 int spots = rnd.Next(1, 6);

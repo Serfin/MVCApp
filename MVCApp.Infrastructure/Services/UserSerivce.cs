@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Runtime.Caching;
 using AutoMapper;
 using MVCApp.Common.ViewModels;
 using MVCApp.Core.Domain;
@@ -73,6 +74,28 @@ namespace MVCApp.Infrastructure.Services
             if (user == null)
                 throw new ArgumentNullException($"{nameof(user)} does not exist");
 
+            return _mapper.Map<User, UserViewModel>(user);
+        }
+
+        public async Task<UserViewModel> GetByIgnAsync(string ign)
+        {
+            if (string.IsNullOrEmpty(ign))
+            {
+                throw new ArgumentNullException($"{nameof(ign)} does not exist");
+            }
+
+            var user = await _userRepository.GetByIgnAsync(ign);
+            return _mapper.Map<User, UserViewModel>(user);
+        }
+
+        public async Task<UserViewModel> GetByEmailAsync(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new ArgumentNullException($"{nameof(email)} does not exist");
+            }
+
+            var user = await _userRepository.GetByEmailAsync(email);
             return _mapper.Map<User, UserViewModel>(user);
         }
 

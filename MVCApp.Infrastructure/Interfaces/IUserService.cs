@@ -14,6 +14,8 @@ namespace MVCApp.Infrastructure.Interfaces
         Task LoginAsync(string email, string password);
         Task<IEnumerable<UserViewModel>> GetAllAsync();
         Task<UserViewModel> GetByIdAsync(Guid userId);
+        Task<UserViewModel> GetByIgnAsync(string ign);
+        Task<UserViewModel> GetByEmailAsync(string email);
         Task UpdateAccountAsync(UserViewModel userViewModel);
 
         Task DeleteAccountAsync(Guid userId);
