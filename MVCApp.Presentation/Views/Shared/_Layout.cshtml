@@ -1,45 +1,46 @@
-﻿@using Microsoft.Ajax.Utilities
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title — moja aplikacja platformy ASP.NET</title>
+    <title>ExileRota</title>
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/BrowseRotations/pagination.js"></script>
+    <script src="~/Scripts/Account/accountManagement.js"></script>
+
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("ExileRota", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Strona główna", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Informacje", "About", "Home")</li>
-                    <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Register", "Register", "Home")</li>
-                    <li>@Html.ActionLink("List of users", "List", "Home")</li>
-                    <li>@Html.ActionLink("Browse rotations", "BrowseRotations", "Home")</li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>@Html.ActionLink("Login", "Login", "Home")</li>
-                </ul>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <nav class="navbar navbar-expand-sm navbar-light bg-light">
+                    <a class="navbar-brand" @Url.Action("Index", "Home")>ExileRota</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <div class="navbar-nav">
+                            <a class="nav-link" href="@Url.Action("BrowseRotations", "Rotations")">Browse rotations</a>
+                            <a class="nav-link" href="@Url.Action("Register", "Home")">Register</a>
+                            
+                            <a class="nav-link" href="@Url.Action("Index", "Account")"></a>
+                            <a class="nav-link" href="@Url.Action("Login", "Home")">Login</a>
+                            <a class="nav-link" style="display: none;" onclick="logout()" href="javascript:void(0)">Logout</a>
+                        </div>
+                    </div>
+                </nav> 
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container">
+        <hr />
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year — moja aplikacja platformy ASP.NET</p>
+            <p>&copy; @DateTime.Now.Year — ExileRota </p>
         </footer>
     </div>
 

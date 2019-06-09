@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-namespace MVCApp.Infrastructure.ViewModels
+namespace MVCApp.Common.ViewModels
 {
     public class RotationViewModel
     {
@@ -9,5 +10,6 @@ namespace MVCApp.Infrastructure.ViewModels
         public string Type { get; set; }
         public IEnumerable<UserViewModel> Members { get; set; }
         public int Spots { get; set; }
+        public DateTime CreationTime { get; set; }
     }
 }

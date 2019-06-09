@@ -1,7 +1,9 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Index</h2>
+﻿<h2>
+    @{
+        // Cookie: __RequestVerificationToken
+        // =lZFAsnBU4OqqQabGqhxoUJsi2jVCvQnjX7JFFXRvYna1NnV56vThKBAF-PUHLO6OdU2wXJ9J9Sfbn8IaS1Hf0GTPG143wTjCdQ8vZ719ltQ1;
+        // UserId=; UserID=UserId=ff3e12c2-428d-4a7d-9005-03f98a2ec3f5&UserIgn=testq001
+        string user = Response.Cookies["UserId"].Value ?? "";
+    }
+</h2>
 

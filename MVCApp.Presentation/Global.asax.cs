@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web;
+using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
@@ -13,11 +15,6 @@ namespace MVCApp.Presentation
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutofacConfig.Initialize();
-        }
-
-        protected void Sesstion_End()
-        {
-            Session["LoggedUser"] = null;
         }
     }
 }

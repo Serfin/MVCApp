@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 
-namespace MVCApp.Infrastructure.ViewModels
+namespace MVCApp.Common.ViewModels
 {
     public class UserViewModel
     {

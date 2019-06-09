@@ -1,22 +1,30 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using MVCApp.Infrastructure.Services;
-using MVCApp.Infrastructure.ViewModels;
-using MVCApp.Presentation.Models;
+using MVCApp.Common.ViewModels;
+using MVCApp.Infrastructure.CommandHandlers;
+using MVCApp.Infrastructure.Commands.User;
+using MVCApp.Infrastructure.Interfaces;
 
 namespace MVCApp.Presentation.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IUserService _accountService;
         private readonly IUserService _userService;
         private readonly IRotationService _rotationService;
+        private readonly ICommandHandler<RegisterUser> _commandHandler;
 
-        public HomeController(IUserService userService, IRotationService rotationService)
+        public HomeController(IUserService accountService, IUserService userService, IRotationService rotationService,
+            ICommandHandler<RegisterUser> commandHandler)
         {
+            _accountService = accountService;
             _userService = userService;
             _rotationService = rotationService;
+            _commandHandler = commandHandler;
         }
 
         public ActionResult Index()
@@ -38,6 +46,36 @@ namespace MVCApp.Presentation.Controllers
             return View();
         }
 
+        public ActionResult BrowseRotations()
+        {
+            return RedirectToAction("BrowseRotations", "Rotations");
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> Details(Guid id)
+        {
+            var user = await _accountService.GetByIdAsync(id);
+            return View(user);
+        }
+
+        public async Task<ActionResult> List()
+        {
+            var users = await _accountService.GetAllAsync();
+            return View(users);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            var user = await _accountService.GetByIdAsync(id);
+            return View(user);
+        }
+
+        [HttpGet]
         public ActionResult Register()
         {
             return View();
@@ -51,8 +89,14 @@ namespace MVCApp.Presentation.Controllers
             {
                 try
                 {
-                    // TODO : Change process of giving roles
-                    await _userService.RegisterAsync(Guid.NewGuid(), model.Email, model.Ign, model.Password, "User");
+                    var command = new RegisterUser()
+                    {
+                        Email = model.Email,
+                        Ign = model.Ign,
+                        Password = model.Password
+                    };
+
+                    await _commandHandler.HandleAsync(command);
 
                     return RedirectToAction("Index");
                 }
@@ -67,70 +111,52 @@ namespace MVCApp.Presentation.Controllers
             return View();
         }
 
-        public async Task<ActionResult> Details(Guid id)
-        {
-            var user = await _userService.GetByIdAsync(id);
-            return View(user);
-        }
-
-        public async Task<ActionResult> List()
-        {
-            var users = await _userService.GetAllAsync();
-            return View(users);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> Delete(Guid id)
-        {
-            var user = await _userService.GetByIdAsync(id);
-            return View(user);
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteUser(Guid id)
         {
             if (ModelState.IsValid)
             {
-                await _userService.DeleteUserAsync(id);
+                await _accountService.DeleteAccountAsync(id);
                 return RedirectToAction("List");
             }
 
             return View("List");
         }
 
-        // TODO : Add pagination
-        public async Task<ActionResult> BrowseRotations(int page = 1)
-        {
-            var rotations = await _rotationService.GetAllAsync();
-            return View(rotations);
-        }
-
-        public ActionResult Login()
-        {
-            return View();
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model)
+        public async Task<ActionResult> LoginJson(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     await _userService.LoginAsync(model.Email, model.Password);
-                    Session["LoggedUser"] = model.Email;
-                    return RedirectToAction("Index", "Account");
+                    var user = await _accountService.GetByEmailAsync(model.Email);
+
+                    HttpCookie cookie = new HttpCookie("BasicUserData");
+                    cookie.Values["UserId"] = user.UserId.ToString();
+                    cookie.Values["UserIgn"] = user.Ign;
+
+                    Response.Cookies.Add(cookie);
+
+                    return View("Index", user);
                 }
                 catch (Exception e)
                 {
-                    ViewData.Add("LoginException", e.Message);
-                    return View();
+                    return View("Index");
                 }
             }
 
-            return View();
+            return View("Login");
+        }
+
+        [HttpGet]
+        public void Logout()
+        {
+            Request.Cookies.Clear();
+            RedirectToAction("Index");
         }
     }
 }

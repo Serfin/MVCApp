@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Runtime.Caching;
 using AutoMapper;
+using MVCApp.Common.ViewModels;
 using MVCApp.Core.Domain;
-using MVCApp.Core.Repositories;
-using MVCApp.Infrastructure.ViewModels;
+using MVCApp.Core.Enums;
+using MVCApp.Infrastructure.Interfaces;
 
 namespace MVCApp.Infrastructure.Services
 {
@@ -21,7 +23,7 @@ namespace MVCApp.Infrastructure.Services
             _mapper = mapper;
         }
 
-        public async Task RegisterAsync(Guid userId, string email, string ign, string password, string role)
+        public async Task RegisterAsync(Guid userId, string email, string ign, string password, SystemRole role)
         {
             var user = await _userRepository.GetByEmailAsync(email);
 
@@ -43,6 +45,19 @@ namespace MVCApp.Infrastructure.Services
             await _userRepository.AddAsync(user);
         }
 
+        public async Task LoginAsync(string email, string password)
+        {
+            var user = await _userRepository.GetByEmailAsync(email);
+
+            if (user == null)
+                throw new ArgumentException("Invalid credentials");
+
+            var hash = _encrypter.GetHash(password, user.Salt);
+
+            if (user.Password != hash)
+                throw new ArgumentException("Invalid credentials");
+        }
+
         public async Task<IEnumerable<UserViewModel>> GetAllAsync()
         {
             var users = await _userRepository.GetAllAsync();
@@ -62,20 +77,29 @@ namespace MVCApp.Infrastructure.Services
             return _mapper.Map<User, UserViewModel>(user);
         }
 
-        public async Task LoginAsync(string email, string password)
+        public async Task<UserViewModel> GetByIgnAsync(string ign)
         {
-            var user = await _userRepository.GetByEmailAsync(email);
+            if (string.IsNullOrEmpty(ign))
+            {
+                throw new ArgumentNullException($"{nameof(ign)} does not exist");
+            }
 
-            if (user == null)
-                throw new ArgumentException("Invalid credentials");
-
-            var hash = _encrypter.GetHash(password, user.Salt);
-
-            if (user.Password != hash)
-                throw new ArgumentException("Invalid credentials");
+            var user = await _userRepository.GetByIgnAsync(ign);
+            return _mapper.Map<User, UserViewModel>(user);
         }
 
-        public async Task UpdateUserAsync(UserViewModel userViewModel)
+        public async Task<UserViewModel> GetByEmailAsync(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new ArgumentNullException($"{nameof(email)} does not exist");
+            }
+
+            var user = await _userRepository.GetByEmailAsync(email);
+            return _mapper.Map<User, UserViewModel>(user);
+        }
+
+        public async Task UpdateAccountAsync(UserViewModel userViewModel)
         {
             var user = await _userRepository.GetByIdAsync(userViewModel.UserId);
             var newUser = _mapper.Map<UserViewModel, User>(userViewModel, user);
@@ -83,7 +107,7 @@ namespace MVCApp.Infrastructure.Services
             await _userRepository.UpdateAsync(newUser);
         }
 
-        public async Task DeleteUserAsync(Guid userId)
+        public async Task DeleteAccountAsync(Guid userId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
             await _userRepository.DeleteAsync(user);

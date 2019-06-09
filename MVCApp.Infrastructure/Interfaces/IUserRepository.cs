@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MVCApp.Core.Domain;
 
-namespace MVCApp.Core.Repositories
+namespace MVCApp.Infrastructure.Interfaces
 {
     public interface IUserRepository : IRepository
     {

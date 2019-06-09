@@ -1,4 +1,4 @@
-﻿namespace MVCApp.Infrastructure.Services
+﻿namespace MVCApp.Infrastructure.Interfaces
 {
     public interface IEncrypter
     {

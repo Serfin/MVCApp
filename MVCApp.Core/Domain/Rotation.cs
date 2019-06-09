@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using MVCApp.Core.Domain;
+using MVCApp.Core.Enums;
 
-namespace ExileRota.Core.Domain
+namespace MVCApp.Core.Domain
 {
     public class Rotation
     {
         private ISet<User> _members = new HashSet<User>();
-        public Rotation(Guid rotationId, Guid creator, string league, string type, int? spots)
+        public Rotation(Guid rotationId, Guid creator, string creatorIgn, LeagueName league, RotationType type, int? spots)
         {
             SetRotationId(rotationId);
             SetCreator(creator);
+            SetCreatorIgn(creatorIgn);
             SetLeague(league);
             SetType(type);
             SetSpots(spots);
@@ -28,6 +29,7 @@ namespace ExileRota.Core.Domain
         [ForeignKey("User")]
         public Guid Creator { get; protected set; }
 
+        public string CreatorIgn { get; protected set; }
         public Guid RotationId { get; protected set; }
         public string League { get; protected set; }
         public string Type { get; protected set; }
@@ -43,7 +45,9 @@ namespace ExileRota.Core.Domain
         private void SetRotationId(Guid rotationId)
         {
             if (rotationId == null)
+            {
                 throw new ArgumentNullException($"{nameof(rotationId)} cannot be null");
+            }
 
             RotationId = rotationId;
         }
@@ -58,24 +62,34 @@ namespace ExileRota.Core.Domain
             Creator = creator;
         }
 
-        private void SetType(string type)
+        private void SetCreatorIgn(string creatorIgn)
         {
-            if (string.IsNullOrWhiteSpace(type))
+            if (string.IsNullOrEmpty(creatorIgn))
+            {
+                throw new ArgumentNullException($"{nameof(creatorIgn)} cannot be null");
+            }
+
+            CreatorIgn = creatorIgn;
+        }
+
+        private void SetType(RotationType type)
+        {
+            if (string.IsNullOrWhiteSpace(type.ToString()))
             {
                 throw new Exception("Type cannot be empty");
             }
 
-            Type = type;
+            Type = type.ToString();
         }
 
-        private void SetLeague(string league)
+        private void SetLeague(LeagueName league)
         {
-            if (string.IsNullOrWhiteSpace(league))
+            if (string.IsNullOrWhiteSpace(league.ToString()))
             {
                 throw new Exception("League name cannot be empty");
             }
 
-            League = league;
+            League = league.ToString();
         }
 
         private void SetSpots(int? spots)
