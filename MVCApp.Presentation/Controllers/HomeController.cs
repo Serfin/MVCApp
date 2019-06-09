@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -124,31 +126,30 @@ namespace MVCApp.Presentation.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model)
+        public async Task<ActionResult> LoginJson(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     await _userService.LoginAsync(model.Email, model.Password);
+                    var user = await _accountService.GetByEmailAsync(model.Email);
 
-                    HttpCookie cookie = new HttpCookie("User")
-                    {
-                        Expires = DateTime.Now.AddDays(1),
-                        ["UserEmail"] = model.Email
-                    };
+                    HttpCookie cookie = new HttpCookie("BasicUserData");
+                    cookie.Values["UserId"] = user.UserId.ToString();
+                    cookie.Values["UserIgn"] = user.Ign;
+
                     Response.Cookies.Add(cookie);
 
-                    return RedirectToAction("Index", "Account");
+                    return View("Index", user);
                 }
                 catch (Exception e)
                 {
-                    ViewData.Add("LoginException", e.Message);
-                    return View();
+                    return View("Index");
                 }
             }
 
-            return View();
+            return View("Login");
         }
 
         [HttpGet]
