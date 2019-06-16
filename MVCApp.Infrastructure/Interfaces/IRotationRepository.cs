@@ -14,6 +14,7 @@ namespace MVCApp.Infrastructure.Interfaces
         Task<IEnumerable<Rotation>> GetByTypeAsync(RotationType type);
         Task<IEnumerable<Rotation>> GetByUserId(Guid userId);
         Task<IEnumerable<Rotation>> GetPageAsync(int page, int pageSize);
+        Task<IEnumerable<User>> GetRotationMembersAsync(Guid rotationId);
 
         Task UpdateRotationAsync(Rotation rotation);
 

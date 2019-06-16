@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -49,6 +50,13 @@ namespace MVCApp.Infrastructure.Services
             }
         }
 
+        public async Task<IEnumerable<UserViewModel>> GetRotationMembersAsync(Guid rotationId)
+        {
+            var members = await _rotationRepository.GetRotationMembersAsync(rotationId);
+
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserViewModel>>(members);
+        }
+
         public async Task JoinRotationAsync(Guid userId, Guid rotationId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
@@ -63,11 +71,26 @@ namespace MVCApp.Infrastructure.Services
             var user = await _userRepository.GetByIdAsync(userId);
             var rotation = await _rotationRepository.GetByRotationId(rotationId);
 
+            // TODO : Check if user that want to leave is user that is logged in
             rotation.DeleteMember(user);
             await _rotationRepository.UpdateRotationAsync(rotation);
         }
-        // TODO : Check if user is owner of rotation that is passed to delete !!!
-        public async Task DeleteRotation(Guid rotationId)
-            => await _rotationRepository.DeleteRotationAsync(rotationId);
+
+        public async Task DeleteRotation(Guid userId, Guid rotationId)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            var rotation = await _rotationRepository.GetByRotationId(rotationId);
+
+            if (user == null)
+                throw new ArgumentNullException($"{nameof(user)} cannot be null");
+
+            if (rotation == null)
+                throw new ArgumentNullException($"{nameof(rotation)} cannot be null");
+
+            if (rotation.Creator == user.UserId)
+                await _rotationRepository.DeleteRotationAsync(rotationId);
+            else
+                throw new Exception($"{nameof(user)} is not the owner of rotation {nameof(rotation)}");
+        }
     }
 }

@@ -11,10 +11,11 @@ namespace MVCApp.Infrastructure.Interfaces
         Task CreateRotationAsync(Guid rotationId, Guid userId, string creatorIgn, LeagueName league, RotationType type, int spots);
 
         Task<IEnumerable<RotationViewModel>> GetPageAsync(int page, int pageSize);
+        Task<IEnumerable<UserViewModel>> GetRotationMembersAsync(Guid rotationId);
 
         Task JoinRotationAsync(Guid userId, Guid rotationId);
         Task LeaveRotationAsync(Guid userId, Guid rotationId);
 
-        Task DeleteRotation(Guid rotationId);
+        Task DeleteRotation(Guid userId, Guid rotationId);
     }
 }
