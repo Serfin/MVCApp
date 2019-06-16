@@ -8,9 +8,11 @@ using MVCApp.Common.ViewModels;
 using MVCApp.Infrastructure.CommandHandlers;
 using MVCApp.Infrastructure.Commands.User;
 using MVCApp.Infrastructure.Interfaces;
+using Newtonsoft.Json;
 
 namespace MVCApp.Presentation.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IUserService _accountService;
@@ -27,11 +29,13 @@ namespace MVCApp.Presentation.Controllers
             _commandHandler = commandHandler;
         }
 
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -39,6 +43,7 @@ namespace MVCApp.Presentation.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
@@ -46,14 +51,10 @@ namespace MVCApp.Presentation.Controllers
             return View();
         }
 
+        [AllowAnonymous] // TODO : Temporary solution until will implementy identity mechanism
         public ActionResult BrowseRotations()
         {
             return RedirectToAction("BrowseRotations", "Rotations");
-        }
-
-        public ActionResult Login()
-        {
-            return View();
         }
 
         public async Task<ActionResult> Details(Guid id)
@@ -76,12 +77,14 @@ namespace MVCApp.Presentation.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -124,32 +127,34 @@ namespace MVCApp.Presentation.Controllers
             return View("List");
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> LoginJson(LoginViewModel model)
+        [AllowAnonymous]
+        public ActionResult Login()
         {
-            if (ModelState.IsValid)
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Login(LoginViewModel model)
+        {
+            try
             {
-                try
-                {
-                    await _userService.LoginAsync(model.Email, model.Password);
-                    var user = await _accountService.GetByEmailAsync(model.Email);
+                await _userService.LoginAsync(model.Email, model.Password);
+                var user = await _accountService.GetByEmailAsync(model.Email);
 
-                    HttpCookie cookie = new HttpCookie("BasicUserData");
-                    cookie.Values["UserId"] = user.UserId.ToString();
-                    cookie.Values["UserIgn"] = user.Ign;
+                HttpCookie cookie = new HttpCookie("BasicUserData");
+                cookie["UserID"] = user.UserId.ToString();
+                cookie["UserIGN"] = user.Ign;
+                Response.Cookies.Add(cookie);
 
-                    Response.Cookies.Add(cookie);
-
-                    return View("Index", user);
-                }
-                catch (Exception e)
-                {
-                    return View("Index");
-                }
+                return RedirectToAction("Index");
             }
-
-            return View("Login");
+            catch (Exception e)
+            {
+                // TODO : Do something with exception
+                return View(model);
+            }
         }
 
         [HttpGet]
