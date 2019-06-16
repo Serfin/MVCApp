@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Specialized;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -8,7 +6,6 @@ using MVCApp.Common.ViewModels;
 using MVCApp.Infrastructure.CommandHandlers;
 using MVCApp.Infrastructure.Commands.User;
 using MVCApp.Infrastructure.Interfaces;
-using Newtonsoft.Json;
 
 namespace MVCApp.Presentation.Controllers
 {

@@ -361,6 +361,8 @@ MigrationBackup/
 **/Content/*
 **/fonts/*
 **/Scripts/*
+!**/Scripts/Account
+!**/Scripts/BrowseRotations
 
 # Logs and databases #
 *.log

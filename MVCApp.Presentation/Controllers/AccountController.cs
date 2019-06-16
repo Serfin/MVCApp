@@ -10,16 +10,16 @@ namespace MVCApp.Presentation.Controllers
     {
         public async Task<ActionResult> Index()
         {
-            //await CreateUsers(100);
+            await CreateUsers(100);
             return View();
         }
 
-        private readonly IUserService _accountService;
+        private readonly IUserService _userService;
         private readonly IRotationService _rotationService;
 
-        public AccountController(IUserService accountService, IRotationService rotationService)
+        public AccountController(IUserService userService, IRotationService rotationService)
         {
-            _accountService = accountService;
+            _userService = userService;
             _rotationService = rotationService;
         }
 
@@ -27,10 +27,10 @@ namespace MVCApp.Presentation.Controllers
         {
             Random rnd = new Random();
 
-            for (int i = 0; i < rnd.Next(90,100); i++)
+            for (int i = 0; i < amount; i++)
             {
                 var guid = Guid.NewGuid();
-                await _accountService.RegisterAsync(guid, $"test-email{i}", $"test-ign{i}",
+                await _userService.RegisterAsync(guid, $"test-email{i}", $"test-ign{i}",
                     "123qwe123", SystemRole.User);
 
 

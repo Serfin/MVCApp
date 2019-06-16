@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.Mvc.Ajax;
 using MVCApp.Common.ViewModels;
 using MVCApp.Infrastructure.Interfaces;
 

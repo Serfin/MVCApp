@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using MVCApp.Core.Enums;
 
 namespace MVCApp.Core.Domain
 {
     public class User
     {
+        public User() { }
         public User(Guid userId, string email, string ign, string password,
             string salt, SystemRole role)
         {
@@ -18,11 +18,6 @@ namespace MVCApp.Core.Domain
             CreatedAt = DateTime.Now;
         }
 
-        protected User()
-        {
-            
-        }
-
         public Guid UserId { get; protected set; }
         public string Ign { get; protected set; }
         public string Email { get; protected set; }
@@ -31,9 +26,6 @@ namespace MVCApp.Core.Domain
         public string Role { get; protected set; }
         public DateTime CreatedAt { get; protected set; }
         public DateTime UpdatedAt { get; protected set; }
-
-        // Entity Framework many-to-many relation 
-        public virtual ICollection<Rotation> Rotations { get; set; }
 
         private void SetUserId(Guid userId)
         {

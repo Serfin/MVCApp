@@ -4,7 +4,6 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using MVCApp.Common.Mappings;
 using MVCApp.Infrastructure.Interfaces;
-using MVCApp.Data.EntityFramework;
 using MVCApp.Infrastructure.CommandHandlers;
 using MVCApp.Infrastructure.Services;
 using MVCApp.Presentation.Controllers;
@@ -49,12 +48,6 @@ namespace MVCApp.Presentation
 
             builder.RegisterInstance(AutoMapperConfiguration.Initialize())
                 .SingleInstance();
-
-            // Register Entity Framework
-
-            builder.RegisterType<MVCAppContext>()
-                .AsSelf()
-                .InstancePerLifetimeScope();
 
             // Resolve dependency
 

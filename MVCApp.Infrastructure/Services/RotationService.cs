@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MVCApp.Common.Exceptions;
@@ -61,9 +61,16 @@ namespace MVCApp.Infrastructure.Services
         {
             var user = await _userRepository.GetByIdAsync(userId);
             var rotation = await _rotationRepository.GetByRotationId(rotationId);
+            var members = await _rotationRepository.GetRotationMembersAsync(rotationId);
+
+            if (members.Contains(user)) // To nie działa
+            {
+                throw new Exception($"User is already in rotation with id: {rotationId}");
+            }
 
             rotation.AddMember(user);
             await _rotationRepository.UpdateRotationAsync(rotation);
+            await _rotationRepository.JoinRotationAsync(userId, rotationId);
         }
 
         public async Task LeaveRotationAsync(Guid userId, Guid rotationId)

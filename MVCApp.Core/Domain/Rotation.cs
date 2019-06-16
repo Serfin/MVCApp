@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using MVCApp.Core.Enums;
 
 namespace MVCApp.Core.Domain
 {
     public class Rotation
     {
+        public Rotation() {  }
         private ISet<User> _members = new HashSet<User>();
         public Rotation(Guid rotationId, Guid creator, string creatorIgn, LeagueName league, RotationType type, int? spots)
         {
@@ -19,16 +19,7 @@ namespace MVCApp.Core.Domain
             CreatedAt = DateTime.Now;
         }
 
-        protected Rotation()
-        {
-
-        }
-
-        // Entity Framework one-to-one relation class
-        public User User { get; set; }
-        [ForeignKey("User")]
         public Guid Creator { get; protected set; }
-
         public string CreatorIgn { get; protected set; }
         public Guid RotationId { get; protected set; }
         public string League { get; protected set; }

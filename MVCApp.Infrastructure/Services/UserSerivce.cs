@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Runtime.Caching;
 using AutoMapper;
 using MVCApp.Common.ViewModels;
 using MVCApp.Core.Domain;
